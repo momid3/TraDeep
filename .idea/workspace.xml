@@ -4,39 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/ExpressionParser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/FinderUtils.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/Main.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/Regex.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionEssentials.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionFinder.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResultsConvenience.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Result.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/parser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/parser/Parser.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/text.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/Runtime.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/TypeInspector.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider" afterDir="false" />
+    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="initial">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +43,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;momid3&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:/momid3/TraDeep.git&quot;,
+    &quot;accountId&quot;: &quot;d1737d41-777d-4007-b2a9-8bc8e6cbfbf0&quot;
+  }
+}</component>
   <component name="KotlinCodeInsightWorkspaceSettings">
     <option name="optimizeImportsOnTheFly" value="true" />
   </component>
@@ -85,42 +67,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build TraDeep.executor": "Run",
-    "Gradle.Build TraDeep3.executor": "Run",
-    "Gradle.TraDeep [build].executor": "Run",
-    "Gradle.TraDeep [clean].executor": "Run",
-    "Kotlin script (Beta).build.gradle.kts.executor": "Run",
-    "Kotlin.FinderUtilsKt.executor": "Run",
-    "Kotlin.MainKt (1).executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "Kotlin.RegisterKt (1).executor": "Run",
-    "Kotlin.RegisterKt (2).executor": "Run",
-    "Kotlin.RegisterKt.executor": "Run",
-    "Kotlin.RegisterTypesKt (1).executor": "Run",
-    "Kotlin.RegisterTypesKt.executor": "Run",
-    "Kotlin.RuntimeKt.executor": "Run",
-    "Kotlin.User Parsing Rules.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "16",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "project.kotlinCompiler",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build TraDeep.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build TraDeep3.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TraDeep [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TraDeep [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin script (Beta).build.gradle.kts.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.FinderUtilsKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt (2).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterTypesKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterTypesKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RuntimeKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.User Parsing Rules.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;16&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;kotlin-gradle-user-dirs&quot;: [
+      &quot;C:\\Users\\moham\\.gradle&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\moham\IdeaProjects\TraDeep3\src\main\resources" />
@@ -223,7 +210,18 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\moham\AppData\Roaming\Subversion</configuration>
+  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="" />
@@ -250,12 +248,41 @@
       <workItem from="1721542042530" duration="21000" />
       <workItem from="1721542439443" duration="15443000" />
       <workItem from="1721808940856" duration="1271000" />
-      <workItem from="1721810235113" duration="2997000" />
+      <workItem from="1721810235113" duration="3347000" />
+      <workItem from="1721813900250" duration="248000" />
+      <workItem from="1721814158510" duration="146000" />
+      <workItem from="1721815644558" duration="3378000" />
+      <workItem from="1721821783139" duration="1370000" />
+      <workItem from="1721823241715" duration="165000" />
+      <workItem from="1721823427428" duration="13000" />
+      <workItem from="1721823450317" duration="250000" />
+      <workItem from="1721823717924" duration="130000" />
+      <workItem from="1721823897288" duration="71000" />
+      <workItem from="1721824016342" duration="23000" />
+      <workItem from="1721824102304" duration="115000" />
+      <workItem from="1721824247980" duration="1575000" />
+      <workItem from="1721825943087" duration="143000" />
+      <workItem from="1721826096229" duration="1664000" />
+      <workItem from="1721828648190" duration="762000" />
+      <workItem from="1721829547971" duration="3878000" />
     </task>
+    <task id="LOCAL-00001" summary="initial">
+      <option name="closed" value="true" />
+      <created>1721813499586</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1721813499586</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="initial" />
+    <option name="LAST_COMMIT_MESSAGE" value="initial" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
