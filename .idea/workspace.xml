@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/ExpressionParser.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/FinderUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/Main.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/Regex.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionEssentials.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionFinder.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResultsConvenience.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Result.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/parser.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/parser/Parser.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/parser/text.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/Runtime.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/kotlin/type/TypeInspector.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/META-INF/services/com.google.devtools.ksp.processing.SymbolProcessorProvider" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="KotlinCodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2j0fhyEkY1LhWoMiF0Hfxbx54kv" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build TraDeep.executor": "Run",
+    "Gradle.Build TraDeep3.executor": "Run",
+    "Gradle.TraDeep [build].executor": "Run",
+    "Gradle.TraDeep [clean].executor": "Run",
+    "Kotlin script (Beta).build.gradle.kts.executor": "Run",
+    "Kotlin.FinderUtilsKt.executor": "Run",
+    "Kotlin.MainKt (1).executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "Kotlin.RegisterKt (1).executor": "Run",
+    "Kotlin.RegisterKt (2).executor": "Run",
+    "Kotlin.RegisterKt.executor": "Run",
+    "Kotlin.RegisterTypesKt (1).executor": "Run",
+    "Kotlin.RegisterTypesKt.executor": "Run",
+    "Kotlin.RuntimeKt.executor": "Run",
+    "Kotlin.User Parsing Rules.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "16",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "project.kotlinCompiler",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\moham\IdeaProjects\TraDeep3\src\main\resources" />
+      <recent name="C:\Users\moham\IdeaProjects\TraDeep3\src\main\kotlin\type" />
+      <recent name="C:\Users\moham\IdeaProjects\TraDeep\Inspection\build\generated\ksp\main\kotlin\com\momid" />
+      <recent name="C:\Users\moham\IdeaProjects\TraDeep\Type\src\main\resources\META-INF\services" />
+      <recent name="C:\Users\moham\IdeaProjects\TraDeep\Type\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="where kotlinc" />
+      <command value="kotlinc" />
+      <command value="kotlinc-native" />
+      <command value="./gradlew build --info" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Kotlin.MainKt">
+    <configuration name="TraDeep [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="--info" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="TraDeep [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
+      <module name="TraDeep.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RegisterTypesKt" type="JetRunConfigurationType" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.momid.inspection.RegisterTypesKt" />
+      <module name="TraDeep.Inspection.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="User Parsing Rules" type="JetRunConfigurationType" temporary="true">
+      <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
+      <module name="TraDeep.UserParsingRules.main" />
+      <shortenClasspath name="NONE" />
+      <method v="2">
+        <option name="Gradle.BeforeRunTask" enabled="true" tasks="" externalProjectPath="$PROJECT_DIR$/Inspection" vmOptions="" scriptParameters="" />
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="RegisterTypesKt" run_configuration_type="JetRunConfigurationType" />
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.TraDeep [build]" />
+      <item itemvalue="Gradle.TraDeep [clean]" />
+      <item itemvalue="Kotlin.RegisterTypesKt" />
+      <item itemvalue="Kotlin.MainKt" />
+      <item itemvalue="Kotlin.User Parsing Rules" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Kotlin.User Parsing Rules" />
+        <item itemvalue="Gradle.TraDeep [clean]" />
+        <item itemvalue="Gradle.TraDeep [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="" />
+      <created>1720529039376</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1720529039376</updated>
+      <workItem from="1720529040453" duration="2000" />
+      <workItem from="1720530229967" duration="4245000" />
+      <workItem from="1720534493740" duration="15079000" />
+      <workItem from="1720592620938" duration="1279000" />
+      <workItem from="1720599346003" duration="12597000" />
+      <workItem from="1720614165822" duration="4680000" />
+      <workItem from="1720622520235" duration="25179000" />
+      <workItem from="1720889777432" duration="3016000" />
+      <workItem from="1720892824138" duration="546000" />
+      <workItem from="1720893386202" duration="4232000" />
+      <workItem from="1721146702677" duration="251000" />
+      <workItem from="1721146971600" duration="218000" />
+      <workItem from="1721147204980" duration="8873000" />
+      <workItem from="1721156517060" duration="36108000" />
+      <workItem from="1721502859871" duration="5719000" />
+      <workItem from="1721541709985" duration="158000" />
+      <workItem from="1721542042530" duration="21000" />
+      <workItem from="1721542439443" duration="15443000" />
+      <workItem from="1721808940856" duration="1271000" />
+      <workItem from="1721810235113" duration="2997000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
