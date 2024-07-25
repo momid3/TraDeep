@@ -30,7 +30,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
     implementation(kotlin("stdlib-jdk8")) // add this
     implementation("com.github.momid3:TraDeep:0.3.8") // add this
     ksp("com.github.momid3:TraDeep:0.3.8") // add this
