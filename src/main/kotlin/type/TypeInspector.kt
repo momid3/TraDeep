@@ -61,7 +61,7 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
         }
         val writer = registerFile.writer()
         writer.write("""
-            package com.momid.inspection
+            package com.momid.generated
             
             import com.momid.type.registerTypes
             import java.io.File
