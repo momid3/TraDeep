@@ -20,7 +20,7 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
         if (invoked) {
             return emptyList()
         }
-        val registerFile = codeGenerator.createNewFile(Dependencies.ALL_FILES, "com.momid", "register")
+        val registerFile = codeGenerator.createNewFile(Dependencies.ALL_FILES, "com.momid.register", "register")
 
 //        val generatedFile = codeGenerator.createNewFile(Dependencies(false), "com.momid", "generated")
 
@@ -61,7 +61,7 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
         }
         val writer = registerFile.writer()
         writer.write("""
-            package com.momid.generated
+            package com.momid.register
             
             import com.momid.type.registerTypes
             import java.io.File
