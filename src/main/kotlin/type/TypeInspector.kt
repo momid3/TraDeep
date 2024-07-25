@@ -24,12 +24,16 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
 
 //        val generatedFile = codeGenerator.createNewFile(Dependencies(false), "com.momid", "generated")
 
+        var registerFilePackage = ""
+
         val generatedFile = File((resolver.getAllFiles().find {
             it.fileName == "RegisterTypes.kt"
         } ?: run {
             registerFile.close()
             throw (Throwable("there is no RegisterTypes.kt file"))
-        }).filePath).resolveSibling("generated.kt")
+        }).also {
+            registerFilePackage = it.packageName.asString()
+        }.filePath).resolveSibling("generated.kt")
         generatedFile.createNewFile()
 //        if (!generatedFileLocation.exists()) {
 //            File("C:\\Users\\moham\\IdeaProjects\\TraDeep\\Inspection\\build\\ksp\\main\\kotlin").mkdirs()
@@ -66,7 +70,7 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
         writer.write("fun register() {\nprintln(registerTypes(listOf(" + expressions.joinToString(",\n") {
             val (name, filePackage) = it
             name + " to " + "\"" + name.capitalize() + "\""
-        } + "), File(" + "\"\"\"" + generatedFile.absolutePath + "\"\"\"" + "), " + "\"\"\"" + imports + "\"\"\"" + "))\n}")
+        } + "), File(" + "\"\"\"" + generatedFile.absolutePath + "\"\"\"" + "), " + "\"" + "package " + registerFilePackage + "\"" + ", " + "\"\"\"" + imports + "\"\"\"" + "))\n}")
         writer.flush()
         invoked = true
         registerFile.close()

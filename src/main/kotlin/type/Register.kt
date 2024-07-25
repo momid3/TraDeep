@@ -4,7 +4,7 @@ import com.momid.parser.expression.*
 import com.momid.parser.expression.Type
 import java.io.File
 
-fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), expressionImports: String = ""): String {
+fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), packageName: String = "", expressionImports: String = ""): String {
     val generatedClasses = HashMap<Expression, TypeClass>()
     for (index in types.indices) {
         val (type, name) = types[index]
@@ -49,10 +49,10 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
     if (file.name != "") {
         file.createNewFile()
         val writer = file.outputStream().writer()
+        writer.write(packageName + "\n")
+        writer.write("\n")
         writer.write(
             """
-                package com.momid.inspection
-                
                 import com.momid.parser.expression.*
             """.trimIndent()
         )
