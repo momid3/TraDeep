@@ -56,3 +56,44 @@ fun main() {
 ```
 
 ## How to use
+Define your parsing rules in the separate module you created.
+Let's say we want to parse a function call (for simplicity, we assume every provided parameter is an identifier).
+```kotlin
+package com.momid
+
+import com.momid.parser.expression.*
+import com.momid.parser.not
+import com.momid.type.Type
+
+@Type
+val allowedName = condition { it.isLetter() } + some(condition { it.isLetterOrDigit() })
+
+@Type
+val parameter = spaces + allowedName["variableName"] + spaces
+
+@Type
+val parameters = splitBy(parameter, ",")
+
+@Type
+val functionCall = allowedName["functionName"] + insideOf('(', ')') {
+    parameters
+}["parameters"]
+```
+
+now, run the `RegisterTypes.kt` file you've created initially. This will generate the corresponding classes to your types. you have to do this every time you change your parsing rules.
+And that's it. your AST will be created automatically.
+
+In your root module, parse your data:
+
+```kotlin
+fun main() {
+    val text = "validate(param, otherParam, anotherParam)"
+    val functionCall = parseFunctionCall(text)!!
+    println(functionCall.functionName.text(text))
+    functionCall.parameters.inside.forEach {
+        println(it.variableName.text(text))
+    }
+}
+```
+
+The function `parseFunctionCall` is auto generated. for the each expression you annotated with `@Type`, there is a corresponding function with name "parse + <your type name>".
