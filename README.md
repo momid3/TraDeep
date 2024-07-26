@@ -96,4 +96,4 @@ fun main() {
 }
 ```
 
-The function `parseFunctionCall` is auto generated. for the each expression you annotated with `@Type`, there is a corresponding function with name "parse + <your type name>".
+The function `parseFunctionCall` is auto generated. for the each expression you annotated with `@Type`, there is a corresponding function with name "parse + \<your type name\>".
