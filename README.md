@@ -98,9 +98,9 @@ fun main() {
 
 The function `parseFunctionCall` is auto generated. for the each expression you annotated with `@Type`, there is a corresponding function with name "parse + \<your type name\>".
 ## Introduction
-In TraDeep, parsing rules are called `expressions`. every parsing rule is a subclass of the `Expression` class and similarly, every resulting object in the resulting AST, is a subclass of `ExpressionResult`.
-These are the classes you interact with the most. `ExpressionResult` contains two important properties that you can access. `expression`, which is the `Expression` that it matched against, and `range` which is the IntRange of the start and end index of the expression.
-There are built-in functions that help you create your parsing rules by combining them or even creating your own custom expressions that execute arbitrary kotlin code when matching expressions.
+In TraDeep, parsing rules are called `expressions`. every parsing rule is a subclass of the `Expression` class and similarly, every resulting object in the resulting AST, is a subclass of `ExpressionResult`.   
+These are the classes you interact with the most. `ExpressionResult` contains two important properties that you can access. `expression`, which is the `Expression` that it matched against, and `range` which is the IntRange of the start and end index of the expression.   
+There are built-in functions that help you create your parsing rules by combining them or even creating your own custom expressions that execute arbitrary kotlin code when matching expressions.   
 ### Common expression functions and operators
 - `!`: The not operator is applied to strings and simply indicates a parsing rule that matches against them. for example, !"sweets" will match against the word "sweets". It *does not* negate.
 
