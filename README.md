@@ -102,15 +102,24 @@ In TraDeep, parsing rules are called `expressions`. every parsing rule is a subc
 These are the classes you interact with the most. `ExpressionResult` contains two important properties that you can access. `expression`, which is the `Expression` that it matched against, and `range` which is the IntRange of the start and end index of the expression.
 There are built-in functions that help you create your parsing rules by combining them or even creating your own custom expressions that execute arbitrary kotlin code when matching expressions.
 ### Common expression functions and operators
-`!`: The not operator is applied to strings and simply indicates a parsing rule that matches against them. for example, !"sweets" will match against the word "sweets". It *does not* negate.
+- `!`: The not operator is applied to strings and simply indicates a parsing rule that matches against them. for example, !"sweets" will match against the word "sweets". It *does not* negate.
 
-`+`: The plus operator appends an expression to (the right of) this expression. for example, `!"I like " + !"sweets"` will create a new expression that will match against "I like sweets".
+- `+`: The plus operator appends an expression to (the right of) this expression. for example, `!"I like " + !"sweets"` will create a new expression that will match against "I like sweets".
 
-`some()`: This function takes an expression and returns an expression that will look for multiple subsequent recurrences of the expression. for example `some(!"sweets")` will match against both "sweets" and "sweetssweets" but not "sweets sweets".
+- `some(expression)`: This function takes an expression and returns an expression that will look for multiple subsequent recurrences of the expression. for example `some(!"sweets")` will match against both "sweets" and "sweetssweets" but not "sweets sweets".
 
-`some0()`: Same as `some()` but will match if there was zero or more subsequent ocurrences. So `!"sweets" + spaces + !"sweets"` will match for both "sweetssweets" and "sweets sweets". (`spaces` is one of the built-in expressions you can use. It will look for zero or more 
+- `some0(expression)`: Same as `some()` but will match if there was zero or more subsequent ocurrences. So `!"sweets" + spaces + !"sweets"` will match for both "sweetssweets" and "sweets sweets". (`spaces` is one of the built-in expressions you can use. It will look for zero or more 
 whitespaces)
 
-`anyOf()`: It will match if any of the provided parameters to it are present. It will start from the leftmost parameter and if satisfied, will discard the remaining expressions. The resulting AST object of this will contain nullable properties with the names of the provided to this function. So you can know which one did it match based on nullability, and then access the nested expression.
+- The `get()` operator (`[]`): If you apply `["some name"]` on an expression, It will set the name for that expression. So that in a MultiExpression (someExpression + otherExpression) you can label your expressions to later access them in the resulting AST.
+If you have:
+    ```kotlin
+    val coolExpression = someExpression["someName"] + anotherExpression
+    ```
+    the result of `coolExpression` will automatically have a field `someName` that you can access, which will contain the AST object corresponding the `someExpression["someName"]`.
 
-`CustomExpression()`: CustomExpression is a subclass of Expression and lets you create an expression with custom logic. It takes a lambda as parameter and inside it you can access the current index of where the TraDeep evaluator currently is within the text being parsed, and the end token until which you're allowed to access.
+- `anyOf(vararg expression)`: It will match if any of the provided parameters to it are present. It will start from the leftmost parameter and if satisfied, will discard the remaining expressions. The resulting AST object of this will contain nullable properties with the names of the provided to this function. So you can know which one did it match based on nullability, and then access the nested expression.
+
+- `not(expression)`: Indicates that the expression should not be present at the current index of the text being parsed. It *does not* change the current evaluation index nor will it have a corresponding ExpressionResult or AST result.
+
+- `CustomExpression()`: CustomExpression is a subclass of Expression and lets you create an expression with custom logic. It takes a lambda as parameter and inside it you can access the current index of where the TraDeep evaluator currently is within the text being parsed, and the end token until which you're allowed to access.
