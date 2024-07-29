@@ -108,9 +108,9 @@ There are built-in functions that help you create your parsing rules by combinin
 
 `some()`: This function takes an expression and returns an expression that will look for multiple subsequent recurrences of the expression. for example `some(!"sweets")` will match against both "sweets" and "sweetssweets" but not "sweets sweets".
 
-`some0()`: Same as `some()` but will match if there was zero or more subsequent ocurrences. So !"sweets" + spaces + !"sweets" will match for both "sweetssweets" and "sweets sweets". (`spaces` is one of the built-in expressions you can use. It will look for zero or more 
+`some0()`: Same as `some()` but will match if there was zero or more subsequent ocurrences. So `!"sweets" + spaces + !"sweets"` will match for both "sweetssweets" and "sweets sweets". (`spaces` is one of the built-in expressions you can use. It will look for zero or more 
 whitespaces)
 
 `anyOf()`: It will match if any of the provided parameters to it are present. It will start from the leftmost parameter and if satisfied, will discard the remaining expressions. The resulting AST object of this will contain nullable properties with the names of the provided to this function. So you can know which one did it match based on nullability, and then access the nested expression.
 
-`CustomExpression()`: CustomExpression is a subclass of Expression and lets you create an expression with custom logic. It takes a lambda as parameter and inside it you can access the current index of where the TraDeep evaluator currently is within the text being parsed, the end token until which you're allowed to access.
+`CustomExpression()`: CustomExpression is a subclass of Expression and lets you create an expression with custom logic. It takes a lambda as parameter and inside it you can access the current index of where the TraDeep evaluator currently is within the text being parsed, and the end token until which you're allowed to access.
