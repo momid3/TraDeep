@@ -1,8 +1,8 @@
 # TraDeep
-TraDeep is parser library for Kotlin. It let's you define the parser grammar in pure Kotlin like parser combinators, and generates corresponding classes for the parsed tree that you can access, like parser generators.
+TraDeep is a parser library for Kotlin. It let's you define the parser grammar in pure Kotlin like parser combinators, and auto generates corresponding AST that you can access easily, like parser generators.
 ## Setup
 To use TraDeep, you must define your parser grammar in a separate module, and use it to parse your data in the main (or any other module). Here are the steps to set it up:
-1. Add dependency to TraDeep. Also add `JitPack` as your repository if haven't already.
+1. Add dependency on TraDeep. Also add `JitPack` as your repository if haven't already.
 ```kotlin
 repositories {
     mavenCentral()
@@ -15,7 +15,7 @@ dependencies {
 ```
 
 2. Create a new module (file -> new -> module). Let's call it `ParserRules`.
-3. Add dependency to TraDeep and Kotlin KSP and add `JitPack` as repository in your new module.
+3. Add dependency on TraDeep and Kotlin KSP and add `JitPack` as repository in your new module.
 
 ```kotlin
 plugins {
