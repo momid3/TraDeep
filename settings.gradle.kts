@@ -5,3 +5,7 @@ rootProject.name = "TraDeep"
 include("Type")
 include("Inspection")
 include("UserParsingRules")
+include("ParserUsage")
+include("ParserUsage")
+include("ParserUsage")
+include("ParserRules")

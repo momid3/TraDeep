@@ -73,7 +73,9 @@ fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: Expressio
 }
 
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
-    return CustomExpression() { tokens, startIndex, endIndex, thisExpression ->
+    return CustomExpression(
+        TypeInfo(expression(), AnyOf(expression()))
+    ) { tokens, startIndex, endIndex, thisExpression ->
         if (startIndex >= endIndex) {
             return@CustomExpression null
         }

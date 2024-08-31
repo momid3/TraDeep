@@ -10,6 +10,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Inspection" />
+            <option value="$PROJECT_DIR$/ParserRules" />
+            <option value="$PROJECT_DIR$/ParserUsage" />
             <option value="$PROJECT_DIR$/Type" />
             <option value="$PROJECT_DIR$/UserParsingRules" />
           </set>
