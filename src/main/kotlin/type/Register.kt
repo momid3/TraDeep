@@ -36,8 +36,14 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
                 ) {
                     "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
                 } + "\n}"
+            } else if (typeClass.type == DefinedTypeClassValue.Expression) {
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.innerType.properties.joinToString(
+                    "\n"
+                ) {
+                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+                } + "\n}"
             } else {
-                ""
+                "nothing for class " + typeClass.innerType
             }
         } + if (!typeClass.name.contains("anonymous", true)) {
             "\nfun parse" + typeClass.name + "(tokens: String): " + typeClass.name + "? {\nval parsed = " + "eval(" + typeClass.name.decapitalize() + ", " + "0" + ", " + "tokens.toList()" + ", " + "tokens.length" + ")\n" + "if (" + "parsed" + " != null) {\nreturn " + typeClass.name + "(parsed)" + "\n} else {\nreturn null\n}\n}"
@@ -47,6 +53,9 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
     }.joinToString("\n")
 
     if (file.name != "") {
+        if (file.exists()) {
+            file.delete()
+        }
         file.createNewFile()
         val writer = file.outputStream().writer()
         writer.write(packageName + "\n")
@@ -63,6 +72,14 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
     }
 
     return generatedCode
+}
+
+fun generateClassForTypeClass(typeClass: TypeClass): String {
+    return "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+        "\n"
+    ) {
+        "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+    } + "\n}"
 }
 
 fun typeName(typeClass: TypeClass): String {
@@ -98,10 +115,11 @@ fun generateTypeClassForExpression(
                         val typeClass = generateTypeClassForExpression(expression, expressionName, generatedClasses, types)
                         properties.add(TypeProperty(expression.name!!, typeClass))
                     } else {
-                        types.add(Pair(expression, "Anonymous" + currentAnonymousType))
-                        val typeClass = generateTypeClassForExpression(expression, "Anonymous" + currentAnonymousType, generatedClasses, types)
-                        properties.add(TypeProperty(expression.name!!, typeClass))
+                        val typeName = "Anonymous" + currentAnonymousType
+                        types.add(Pair(expression, typeName))
                         currentAnonymousType += 1
+                        val typeClass = generateTypeClassForExpression(expression, typeName, generatedClasses, types)
+                        properties.add(TypeProperty(expression.name!!, typeClass))
                     }
                 } else {
                     properties.add(TypeProperty(expression.name!!, generatedClasses[expression]!!))
@@ -110,13 +128,14 @@ fun generateTypeClassForExpression(
         }
     } else if (type is EachOfExpression) {
         val innerTypes = type.map { innerType ->
+            val outputExpressionName = expressionName(innerType, types)
+
             val typeClass = generatedClasses[innerType] ?: generateTypeClassForExpression(
                 innerType,
-                "Anonymous" + currentAnonymousType,
+                outputExpressionName,
                 generatedClasses,
                 types
             )
-            currentAnonymousType += 1
             typeClass
         }
         val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(AnyOf(*(((type as EachOfExpression) as List<Expression>).toTypedArray()))), innerTypes)
@@ -129,13 +148,14 @@ fun generateTypeClassForExpression(
             when (outputExpression) {
                 is AnyOf -> {
                     val innerTypes = outputExpression.innerTypes.map { innerType ->
+                        val outputExpressionName = expressionName(outputExpression, types)
+
                         val typeClass = generatedClasses[innerType] ?: generateTypeClassForExpression(
                             innerType,
-                            "Anonymous" + currentAnonymousType,
+                            outputExpressionName,
                             generatedClasses,
                             types
                         )
-                        currentAnonymousType += 1
                         typeClass
                     }
                     val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), innerTypes)
@@ -145,9 +165,11 @@ fun generateTypeClassForExpression(
                 }
 
                 is Type -> {
+                    val outputExpressionName = expressionName(outputExpression.innerType, types)
+
                     val typeClass = generatedClasses[outputExpression.innerType] ?: generateTypeClassForExpression(
                         outputExpression.innerType,
-                        "Anonymous" + currentAnonymousType,
+                        outputExpressionName,
                         generatedClasses,
                         types
                     )
@@ -158,9 +180,11 @@ fun generateTypeClassForExpression(
                 }
 
                 else -> {
+                    val outputExpressionName = expressionName(outputExpression, types)
+
                     val typeClass = generatedClasses[outputExpression] ?: generateTypeClassForExpression(
                         outputExpression,
-                        "Anonymous" + currentAnonymousType,
+                        outputExpressionName,
                         generatedClasses,
                         types
                     )
@@ -174,6 +198,19 @@ fun generateTypeClassForExpression(
     }
     generatedClasses[type] = generatedClass
     return generatedClass
+}
+
+fun expressionName(expression: Expression, types: List<Pair<Expression, String>>): String {
+    val outputExpressionType = types.find { (typesExpression, name) ->
+        typesExpression == expression
+    }
+    var outputExpressionName = "Anonymous" + currentAnonymousType
+    currentAnonymousType += 1
+    if (outputExpressionType != null) {
+        val (expression, name) = outputExpressionType
+        outputExpressionName = name
+    }
+    return outputExpressionName
 }
 
 fun typeToDefinedTypeClassValue(type: Expression): DefinedTypeClassValue {
