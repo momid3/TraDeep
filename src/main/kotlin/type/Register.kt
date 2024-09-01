@@ -88,9 +88,11 @@ fun typeName(typeClass: TypeClass): String {
     } else {
         if (typeClass.type == DefinedTypeClassValue.List) {
             return "List<" + typeClass.innerType.name + ">"
+        } else if (typeClass.type == DefinedTypeClassValue.Expression) {
+            return typeClass.name
         }
     }
-    return ""
+    return "nothing for class " + typeClass.name
 }
 
 var currentAnonymousType = 0
@@ -115,7 +117,7 @@ fun generateTypeClassForExpression(
                         val typeClass = generateTypeClassForExpression(expression, expressionName, generatedClasses, types)
                         properties.add(TypeProperty(expression.name!!, typeClass))
                     } else {
-                        val typeName = "Anonymous" + currentAnonymousType
+                        val typeName = expressionName(expression, types)
                         types.add(Pair(expression, typeName))
                         currentAnonymousType += 1
                         val typeClass = generateTypeClassForExpression(expression, typeName, generatedClasses, types)
@@ -141,14 +143,14 @@ fun generateTypeClassForExpression(
         val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(AnyOf(*(((type as EachOfExpression) as List<Expression>).toTypedArray()))), innerTypes)
         definedTypeClass.name = name
         generatedClasses[type] = definedTypeClass
-        return generatedClass
+        return definedTypeClass
     } else if (type is CustomExpression) {
         if (type.typeInfo != null) {
             val outputExpression = type.typeInfo.outputExpression
             when (outputExpression) {
                 is AnyOf -> {
                     val innerTypes = outputExpression.innerTypes.map { innerType ->
-                        val outputExpressionName = expressionName(outputExpression, types)
+                        val outputExpressionName = expressionName(innerType, types)
 
                         val typeClass = generatedClasses[innerType] ?: generateTypeClassForExpression(
                             innerType,
@@ -161,7 +163,7 @@ fun generateTypeClassForExpression(
                     val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), innerTypes)
                     definedTypeClass.name = name
                     generatedClasses[type] = definedTypeClass
-                    return generatedClass
+                    return definedTypeClass
                 }
 
                 is Type -> {
@@ -176,7 +178,7 @@ fun generateTypeClassForExpression(
                     val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), typeClass)
                     definedTypeClass.name = name
                     generatedClasses[type] = definedTypeClass
-                    return generatedClass
+                    return definedTypeClass
                 }
 
                 else -> {
@@ -191,7 +193,7 @@ fun generateTypeClassForExpression(
                     val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), typeClass)
                     definedTypeClass.name = name
                     generatedClasses[type] = definedTypeClass
-                    return generatedClass
+                    return definedTypeClass
                 }
             }
         }
