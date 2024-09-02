@@ -106,13 +106,26 @@ fun generateTypeClassForExpression(
     types: ArrayList<Pair<Expression, String>>,
     includeInGeneratedClasses: Boolean = true
 ): TypeClass {
+    val existing = generatedClasses[type]
+    if (existing != null) {
+        if (existing.name != name) {
+            return generateTypeClassForExpression(
+                cloneExpression(type),
+                name,
+                generatedClasses,
+                types,
+                includeInGeneratedClasses
+            )
+        } else {
+            return existing
+        }
+    }
     if (type is CustomExpression) {
         println(type.condition)
     }
     if (type is MultiExpression) {
         val properties = ArrayList<TypeProperty>()
         val generatedClass = TypeClass(name, properties)
-        val existing = generatedClasses[type]
         if (existing == null) {
             if (includeInGeneratedClasses) {
                 generatedClasses[type] = generatedClass
@@ -237,7 +250,6 @@ fun generateTypeClassForExpression(
     }
 
     val generatedClass = TypeClass(name, listOf())
-    val existing = generatedClasses[type]
     if (existing == null) {
         if (includeInGeneratedClasses) {
             generatedClasses[type] = generatedClass
@@ -287,6 +299,13 @@ class DefinedTypeClass(
 
 enum class DefinedTypeClassValue {
     List, Content, AnyOf, Optional, Expression
+}
+
+fun cloneExpression(expression: Expression): Expression {
+    return expression[expression.name ?: ""].apply {
+        currentExpressionId += 1
+        this.id = currentExpressionId
+    }
 }
 
 class ooo(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {

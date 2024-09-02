@@ -19,17 +19,6 @@ return Klass(parsed)
 return null
 }
 }
-class AllowedName(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-
-}
-fun parseAllowedName(tokens: String): AllowedName? {
-val parsed = eval(allowedName, 0, tokens.toList(), tokens.length)
-if (parsed != null) {
-return AllowedName(parsed)
-} else {
-return null
-}
-}
 class GenericType(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 val name: AllowedName
 get() {
@@ -48,13 +37,13 @@ return GenericType(parsed)
 return null
 }
 }
-class Type(val expressionResult: ExpressionResult, val isKlass: Klass? = if (expressionResult.content.expression == klass) {
-Klass(expressionResult.content)
+class Type(val expressionResult: ExpressionResult, val isGenericType: GenericType? = if (expressionResult.content.expression == genericType) {
+GenericType(expressionResult.content)
 } else {
 null
 },
-val isGenericType: GenericType? = if (expressionResult.content.expression == genericType) {
-GenericType(expressionResult.content)
+val isKlass: Klass? = if (expressionResult.content.expression == klass) {
+Klass(expressionResult.content)
 } else {
 null
 }): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
@@ -64,6 +53,17 @@ fun parseType(tokens: String): Type? {
 val parsed = eval(type, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Type(parsed)
+} else {
+return null
+}
+}
+class AllowedName(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
+}
+fun parseAllowedName(tokens: String): AllowedName? {
+val parsed = eval(allowedName, 0, tokens.toList(), tokens.length)
+if (parsed != null) {
+return AllowedName(parsed)
 } else {
 return null
 }

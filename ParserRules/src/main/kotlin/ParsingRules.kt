@@ -24,13 +24,13 @@ val fullFunctionCall = !"some" + insideOf('(', ')') {
 }["ooo"]
 
 @Type
-val klass = one(allowedName["name"] + not(!"<"))
+val klass = same(allowedName)
 
 @Type
 val genericType = cold { allowedName["name"] + !"<" + type["typeParameter"] + !">" }
 
 @Type
-val type: EachOfExpression = anyOf(klass, genericType)
+val type: EachOfExpression = anyOf(genericType, klass)
 
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
@@ -96,5 +96,12 @@ fun one(expression: Expression): CustomExpression {
         } else {
             evaluation
         }
+    }
+}
+
+fun same(expression: Expression): Expression {
+    return expression[expression.name ?: ""].apply {
+        currentExpressionId += 1
+        this.id = currentExpressionId
     }
 }
