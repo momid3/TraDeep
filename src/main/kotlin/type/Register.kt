@@ -198,19 +198,26 @@ fun generateTypeClassForExpression(
             }
         }
     }
-    generatedClasses[type] = generatedClass
-    return generatedClass
+    val existing = generatedClasses[type]
+    if (existing == null) {
+        generatedClasses[type] = generatedClass
+        return generatedClass
+    } else {
+        return existing
+    }
 }
 
 fun expressionName(expression: Expression, types: List<Pair<Expression, String>>): String {
     val outputExpressionType = types.find { (typesExpression, name) ->
         typesExpression == expression
     }
-    var outputExpressionName = "Anonymous" + currentAnonymousType
-    currentAnonymousType += 1
-    if (outputExpressionType != null) {
+    val outputExpressionName = if (outputExpressionType == null) {
+        val name = "Anonymous" + currentAnonymousType
+        currentAnonymousType += 1
+        name
+    } else {
         val (expression, name) = outputExpressionType
-        outputExpressionName = name
+        name
     }
     return outputExpressionName
 }

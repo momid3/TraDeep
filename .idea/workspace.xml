@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="include parsing usage">
+    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="fixes">
+      <change afterPath="$PROJECT_DIR$/ParserUsage/src/test/kotlin/ParserTest.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/type/TypeInspector.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/type/TypeInspector.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +54,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="JUnit5 Test Class" />
         <option value="Kotlin Class" />
       </list>
     </option>
@@ -90,48 +92,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build TraDeep.executor": "Run",
-    "Gradle.Build TraDeep3.executor": "Run",
-    "Gradle.TraDeep [build].executor": "Run",
-    "Gradle.TraDeep [clean].executor": "Run",
-    "Kotlin script (Beta).build.gradle.kts.executor": "Run",
-    "Kotlin.FinderUtilsKt.executor": "Run",
-    "Kotlin.MainKt (1).executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "Kotlin.RegisterKt (1).executor": "Run",
-    "Kotlin.RegisterKt (2).executor": "Run",
-    "Kotlin.RegisterKt.executor": "Run",
-    "Kotlin.RegisterTypesKt (1).executor": "Run",
-    "Kotlin.RegisterTypesKt.executor": "Run",
-    "Kotlin.RuntimeKt.executor": "Run",
-    "Kotlin.User Parsing Rules.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "16",
-    "kotlin-language-version-configured": "true",
-    "last_directory_selection": "C:/Users/moham/IdeaProjects/TraDeep3/ParserRules/build/generated/ksp/main/kotlin/com/momid",
-    "last_opened_file_path": "C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Gradle.Build TraDeep.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build TraDeep3.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.ParserTest.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TraDeep [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.TraDeep [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin script (Beta).build.gradle.kts.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.FinderUtilsKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt (2).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterTypesKt (1).executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RegisterTypesKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.RuntimeKt.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.User Parsing Rules.executor&quot;: &quot;Run&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;16&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_directory_selection&quot;: &quot;C:/Users/moham/IdeaProjects/TraDeep3/ParserUsage/src/test/kotlin&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "kotlin-gradle-user-dirs": [
-      "C:\\Users\\moham\\.gradle"
+  &quot;keyToStringList&quot;: {
+    &quot;kotlin-gradle-user-dirs&quot;: [
+      &quot;C:\\Users\\moham\\.gradle&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\moham\IdeaProjects\TraDeep3\src\main\resources" />
@@ -139,6 +148,12 @@
       <recent name="C:\Users\moham\IdeaProjects\TraDeep\Inspection\build\generated\ksp\main\kotlin\com\momid" />
       <recent name="C:\Users\moham\IdeaProjects\TraDeep\Type\src\main\resources\META-INF\services" />
       <recent name="C:\Users\moham\IdeaProjects\TraDeep\Type\src\main\resources" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="" />
     </key>
   </component>
   <component name="RunAnythingCache">
@@ -149,82 +164,55 @@
       <command value="./gradlew build --info" />
     </option>
   </component>
-  <component name="RunManager" selected="Kotlin.MainKt (1)">
-    <configuration name="TraDeep [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Kotlin.RegisterTypesKt">
+    <configuration name="ParserTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
         <option name="taskNames">
           <list>
-            <option value="clean" />
+            <option value=":ParserUsage:test" />
+            <option value="--tests" />
+            <option value="&quot;ParserTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
       </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
       <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
+      <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MainKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
       <module name="TraDeep.ParserUsage.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
-      <module name="TraDeep.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="RegisterTypesKt (1)" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+    <configuration name="RegisterTypesKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.momid.RegisterTypesKt" />
       <module name="TraDeep.ParserRules.main" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RegisterTypesKt" type="JetRunConfigurationType" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.momid.inspection.RegisterTypesKt" />
-      <module name="TraDeep.Inspection.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="User Parsing Rules" type="JetRunConfigurationType" temporary="true">
-      <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
-      <module name="TraDeep.UserParsingRules.main" />
-      <shortenClasspath name="NONE" />
-      <method v="2">
-        <option name="Gradle.BeforeRunTask" enabled="true" tasks="" externalProjectPath="$PROJECT_DIR$/Inspection" vmOptions="" scriptParameters="" />
-        <option name="RunConfigurationTask" enabled="true" run_configuration_name="RegisterTypesKt" run_configuration_type="JetRunConfigurationType" />
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="Gradle.TraDeep [clean]" />
+      <item itemvalue="Gradle.ParserTest" />
       <item itemvalue="Kotlin.RegisterTypesKt" />
-      <item itemvalue="Kotlin.MainKt (1)" />
-      <item itemvalue="Kotlin.RegisterTypesKt (1)" />
       <item itemvalue="Kotlin.MainKt" />
-      <item itemvalue="Kotlin.User Parsing Rules" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Kotlin.MainKt (1)" />
-        <item itemvalue="Kotlin.RegisterTypesKt (1)" />
+        <item itemvalue="Kotlin.RegisterTypesKt" />
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Kotlin.User Parsing Rules" />
-        <item itemvalue="Gradle.TraDeep [clean]" />
+        <item itemvalue="Gradle.ParserTest" />
       </list>
     </recent_temporary>
   </component>
@@ -291,7 +279,14 @@
       <workItem from="1725082024288" duration="63000" />
       <workItem from="1725082102707" duration="96000" />
       <workItem from="1725082230771" duration="53000" />
-      <workItem from="1725082295269" duration="20726000" />
+      <workItem from="1725082295269" duration="26674000" />
+      <workItem from="1725161894309" duration="18000" />
+      <workItem from="1725161917351" duration="2475000" />
+      <workItem from="1725164440719" duration="1050000" />
+      <workItem from="1725165520724" duration="66000" />
+      <workItem from="1725165628969" duration="13000" />
+      <workItem from="1725165660127" duration="717000" />
+      <workItem from="1725166411374" duration="7259000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -349,7 +344,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725083906027</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1725149713809</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1725149713809</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1725154201144</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1725154201144</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -357,9 +368,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial" />
-    <MESSAGE value="fixes" />
     <MESSAGE value="include parsing usage" />
-    <option name="LAST_COMMIT_MESSAGE" value="include parsing usage" />
+    <MESSAGE value="fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

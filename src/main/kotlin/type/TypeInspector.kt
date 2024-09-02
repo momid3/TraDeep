@@ -44,7 +44,7 @@ class MyProcessor(val codeGenerator: CodeGenerator, val kspLogger: KSPLogger) : 
         resolver.getAllFiles().forEach { symbol ->
             val file = File(symbol.filePath)
             val declaration = file.readText()
-            find(declaration, !"@Type" + until(!"val") + !"val" + spaces + until(!" ")["value"]).forEach() {
+            find(declaration, !"@Type" + until(!"val") + !"val" + spaces + until(anyOf(!" ", !":"))["value"]).forEach() {
                 val declaration = it["value"].correspondingTokensText(declaration.toList())
                 kspLogger.info("ooo")
                 kspLogger.info(declaration)
