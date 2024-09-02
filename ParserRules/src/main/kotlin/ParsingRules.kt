@@ -24,7 +24,7 @@ val fullFunctionCall = !"some" + insideOf('(', ')') {
 }["ooo"]
 
 @Type
-val klass = allowedName["name"] + not(!"<")
+val klass = one(allowedName["name"] + not(!"<"))
 
 @Type
 val genericType = cold { allowedName["name"] + !"<" + type["typeParameter"] + !">" }
@@ -90,6 +90,7 @@ fun one(expression: Expression): CustomExpression {
             } else {
                 return@CustomExpression namedExpressionResult!!.apply {
                     this.nextTokenIndex = evaluation.nextTokenIndex
+                    this.expression = thisExpression
                 }
             }
         } else {

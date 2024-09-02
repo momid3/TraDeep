@@ -10,7 +10,7 @@ fun main() {
         it.name.text(tokens).println()
     }
     type.isKlass.then {
-        it.name.text(tokens).println()
+        it.text(tokens).println()
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"
     val functionCall = parseFullFunctionCall(text)!!

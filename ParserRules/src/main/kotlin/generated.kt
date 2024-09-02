@@ -1,17 +1,31 @@
 package com.momid
 
-import com.momid.parser.expression.*
-
+import com.momid.parser.expression.*import com.momid.allowedName
+import com.momid.parameter
+import com.momid.parameters
+import com.momid.functionCall
+import com.momid.fullFunctionCall
+import com.momid.klass
+import com.momid.genericType
+import com.momid.type
 class Klass(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-val name: AllowedName
-get() {
-return AllowedName(expressionResult["name"])
-}
+
 }
 fun parseKlass(tokens: String): Klass? {
 val parsed = eval(klass, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Klass(parsed)
+} else {
+return null
+}
+}
+class AllowedName(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
+}
+fun parseAllowedName(tokens: String): AllowedName? {
+val parsed = eval(allowedName, 0, tokens.toList(), tokens.length)
+if (parsed != null) {
+return AllowedName(parsed)
 } else {
 return null
 }
@@ -30,17 +44,6 @@ fun parseGenericType(tokens: String): GenericType? {
 val parsed = eval(genericType, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return GenericType(parsed)
-} else {
-return null
-}
-}
-class AllowedName(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-
-}
-fun parseAllowedName(tokens: String): AllowedName? {
-val parsed = eval(allowedName, 0, tokens.toList(), tokens.length)
-if (parsed != null) {
-return AllowedName(parsed)
 } else {
 return null
 }
