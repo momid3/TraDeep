@@ -3,9 +3,9 @@ package com.momid
 import com.momid.parser.expression.*
 
 class Klass(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-val ooo: AllowedName
+val name: AllowedName
 get() {
-return AllowedName(expressionResult["ooo"])
+return AllowedName(expressionResult["name"])
 }
 }
 fun parseKlass(tokens: String): Klass? {
@@ -17,13 +17,13 @@ return null
 }
 }
 class GenericType(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-val some: AllowedName
+val name: AllowedName
 get() {
-return AllowedName(expressionResult["some"])
+return AllowedName(expressionResult["name"])
 }
-val ooo: Type
+val typeParameter: Type
 get() {
-return Type(expressionResult["ooo"])
+return Type(expressionResult["typeParameter"])
 }
 }
 fun parseGenericType(tokens: String): GenericType? {

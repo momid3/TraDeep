@@ -24,10 +24,10 @@ val fullFunctionCall = !"some" + insideOf('(', ')') {
 }["ooo"]
 
 @Type
-val klass = allowedName["ooo"] + not(!"<")
+val klass = allowedName["name"] + not(!"<")
 
 @Type
-val genericType = cold { allowedName["some"] + !"<" + type["ooo"] + !">" }
+val genericType = cold { allowedName["name"] + !"<" + type["typeParameter"] + !">" }
 
 @Type
 val type: EachOfExpression = anyOf(klass, genericType)

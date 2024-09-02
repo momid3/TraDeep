@@ -7,10 +7,10 @@ fun main() {
     val tokens = "some<ooo>"
     val type = parseType(tokens)!!
     type.isGenericType.then {
-        it.some.text(tokens).println()
+        it.name.text(tokens).println()
     }
     type.isKlass.then {
-        it.text(tokens).println()
+        it.name.text(tokens).println()
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"
     val functionCall = parseFullFunctionCall(text)!!
