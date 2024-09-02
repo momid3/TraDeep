@@ -47,6 +47,10 @@ fun <T : Expression> ExpressionResult.isOfForEach(expression: T, block: (Express
     }
 }
 
+fun cold(expression: () -> Expression): ColdExpression {
+    return ColdExpression(expression)
+}
+
 fun not(expression: Expression): NotExpression {
     return NotExpression(expression)
 }

@@ -23,6 +23,15 @@ val fullFunctionCall = !"some" + insideOf('(', ')') {
     one(!"fun" + spaces + functionCall["functionCall"])
 }["ooo"]
 
+@Type
+val klass = allowedName["ooo"] + not(!"<")
+
+@Type
+val genericType = cold { allowedName["some"] + !"<" + type["ooo"] + !">" }
+
+@Type
+val type: EachOfExpression = anyOf(klass, genericType)
+
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
         TypeInfo(expression(), MultiExpression(arrayListOf(expression()["inside"])))

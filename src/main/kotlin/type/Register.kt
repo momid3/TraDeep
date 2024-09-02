@@ -90,6 +90,8 @@ fun typeName(typeClass: TypeClass): String {
             return "List<" + typeClass.innerType.name + ">"
         } else if (typeClass.type == DefinedTypeClassValue.Expression) {
             return typeClass.name
+        } else if (typeClass.type == DefinedTypeClassValue.AnyOf) {
+            return typeClass.name
         }
     }
     return "nothing for class " + typeClass.name
@@ -101,14 +103,23 @@ fun generateTypeClassForExpression(
     type: Expression,
     name: String,
     generatedClasses: HashMap<Expression, TypeClass>,
-    types: ArrayList<Pair<Expression, String>>
+    types: ArrayList<Pair<Expression, String>>,
+    includeInGeneratedClasses: Boolean = true
 ): TypeClass {
-    val properties = ArrayList<TypeProperty>()
-    val generatedClass = TypeClass(name, properties)
     if (type is CustomExpression) {
         println(type.condition)
     }
     if (type is MultiExpression) {
+        val properties = ArrayList<TypeProperty>()
+        val generatedClass = TypeClass(name, properties)
+        val existing = generatedClasses[type]
+        if (existing == null) {
+            if (includeInGeneratedClasses) {
+                generatedClasses[type] = generatedClass
+            }
+        } else {
+            return existing
+        }
         type.forEach { expression ->
             if (expression.name != null) {
                 if (generatedClasses[expression] == null) {
@@ -128,8 +139,15 @@ fun generateTypeClassForExpression(
                 }
             }
         }
+        return generatedClass
     } else if (type is EachOfExpression) {
-        val innerTypes = type.map { innerType ->
+        val innerTypes = ArrayList<TypeClass>()
+        val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(AnyOf(*(((type as EachOfExpression) as List<Expression>).toTypedArray()))), innerTypes)
+        definedTypeClass.name = name
+        if (includeInGeneratedClasses) {
+            generatedClasses[type] = definedTypeClass
+        }
+        innerTypes.addAll(type.map { innerType ->
             val outputExpressionName = expressionName(innerType, types)
 
             val typeClass = generatedClasses[innerType] ?: generateTypeClassForExpression(
@@ -139,10 +157,7 @@ fun generateTypeClassForExpression(
                 types
             )
             typeClass
-        }
-        val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(AnyOf(*(((type as EachOfExpression) as List<Expression>).toTypedArray()))), innerTypes)
-        definedTypeClass.name = name
-        generatedClasses[type] = definedTypeClass
+        })
         return definedTypeClass
     } else if (type is CustomExpression) {
         if (type.typeInfo != null) {
@@ -167,6 +182,11 @@ fun generateTypeClassForExpression(
                 }
 
                 is Type -> {
+                    val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), TypeClass("", listOf()))
+                    definedTypeClass.name = name
+                    if (includeInGeneratedClasses) {
+                        generatedClasses[type] = definedTypeClass
+                    }
                     val outputExpressionName = expressionName(outputExpression.innerType, types)
 
                     val typeClass = generatedClasses[outputExpression.innerType] ?: generateTypeClassForExpression(
@@ -175,13 +195,16 @@ fun generateTypeClassForExpression(
                         generatedClasses,
                         types
                     )
-                    val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), typeClass)
-                    definedTypeClass.name = name
-                    generatedClasses[type] = definedTypeClass
+                    definedTypeClass.innerType = typeClass
                     return definedTypeClass
                 }
 
                 else -> {
+                    val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), TypeClass("", listOf()))
+                    definedTypeClass.name = name
+                    if (includeInGeneratedClasses) {
+                        generatedClasses[type] = definedTypeClass
+                    }
                     val outputExpressionName = expressionName(outputExpression, types)
 
                     val typeClass = generatedClasses[outputExpression] ?: generateTypeClassForExpression(
@@ -190,17 +213,35 @@ fun generateTypeClassForExpression(
                         generatedClasses,
                         types
                     )
-                    val definedTypeClass = DefinedTypeClass(typeToDefinedTypeClassValue(outputExpression), typeClass)
-                    definedTypeClass.name = name
-                    generatedClasses[type] = definedTypeClass
+                    definedTypeClass.innerType = typeClass
                     return definedTypeClass
                 }
             }
         }
+    } else if (type is ColdExpression) {
+        val generatedClass = TypeClass(name, listOf())
+        val existing = generatedClasses[type]
+        if (existing == null) {
+            generatedClasses[type] = generatedClass
+        } else {
+            return existing
+        }
+        val coldExpression = type.expression()
+        val typeName = expressionName(coldExpression, types)
+        val generated = generateTypeClassForExpression(coldExpression, typeName, generatedClasses, types, false)
+        generated.name = name
+        if (includeInGeneratedClasses) {
+            generatedClasses[type] = generated
+        }
+        return generated
     }
+
+    val generatedClass = TypeClass(name, listOf())
     val existing = generatedClasses[type]
     if (existing == null) {
-        generatedClasses[type] = generatedClass
+        if (includeInGeneratedClasses) {
+            generatedClasses[type] = generatedClass
+        }
         return generatedClass
     } else {
         return existing
@@ -239,7 +280,7 @@ class TypeProperty(val name: String, val type: TypeClass)
 class DefinedTypeClass(
     val type: DefinedTypeClassValue,
     val innerTypes: List<TypeClass>,
-    val innerType: TypeClass = innerTypes[0]
+    var innerType: TypeClass = TypeClass("", listOf())
 ) : TypeClass("", listOf()) {
     constructor(type: DefinedTypeClassValue, innerType: TypeClass) : this(type, listOf(innerType))
 }

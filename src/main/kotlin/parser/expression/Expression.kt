@@ -39,6 +39,8 @@ class NotExpression(val expression: Expression): Expression()
 
 class CustomExpression(val typeInfo: TypeInfo? = null, val condition: (tokens: List<Char>, startIndex: Int, endIndex: Int, thisExpression: CustomExpression) -> ExpressionResult?): Expression()
 
+class ColdExpression(val expression: () -> Expression): Expression()
+
 class TypeInfo(val inputExpression: Expression, val outputExpression: Expression)
 
 open class Type(val innerTypes: List<Expression>, val innerType: Expression = innerTypes[0]): Expression() {
@@ -102,6 +104,11 @@ fun eval(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: 
         is RecurringSomeExpression -> return eval(expression, startIndex, tokens, endIndex)
         is RecurringSome0Expression -> return eval(expression, startIndex, tokens, endIndex)
         is CustomExpression -> return eval(expression, startIndex, tokens, endIndex)
+        is ColdExpression -> return eval(expression.expression(), startIndex, tokens, endIndex).apply {
+            if (this != null) {
+                this.expression = expression
+            }
+        }
         else -> {
             val tokensEndIndex = evaluateExpression(expression, startIndex, tokens, endIndex)
             if (tokensEndIndex != -1) {
