@@ -14,11 +14,18 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
     val generatedCode = generatedClasses.map {
         val (expression, typeClass) = it
         if (typeClass !is DefinedTypeClass) {
-            "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
-                "\n"
-            ) {
-                "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-            } + "\n}"
+            if (expression is RequireExpression) {
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
+                        "\n" + "val isOk: " + typeName(typeClass) + "Require" + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + typeClass.name + "Require" + "(expressionResult)\n} else {\nnull\n}\n}" +
+                        "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
+                        "\n}"
+            } else {
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+                    "\n"
+                ) {
+                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+                } + "\n}"
+            }
         } else {
             if (typeClass.type == DefinedTypeClassValue.List) {
                 "class " + typeClass.name + "(val expressionResult: ExpressionResult, val items: List<" + typeClass.innerType.name + "> = expressionResult.asMulti().map {\n" + typeClass.innerType.name + "(it)\n}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<" + typeClass.innerType.name + "> by items {\n" + typeClass.properties.joinToString(
@@ -122,6 +129,9 @@ fun generateTypeClassForExpression(
     }
     if (type is CustomExpression) {
         println(type.condition)
+    }
+    if (type is RequireExpression) {
+        generateTypeClassForExpression(type.expression, name + "Require", generatedClasses, types, includeInGeneratedClasses)
     }
     if (type is MultiExpression) {
         val properties = ArrayList<TypeProperty>()

@@ -7,12 +7,14 @@ import com.momid.type.asMulti
 
 fun main() {
     val requires = "ooosomeofrequireooo"
-    val requiresType = (!"ooo")["ooo"] + require((!"sor")["some"]) + (!"ooo")["someooo"]
+    val requiresType = (!"ooo")["ooo"] + require((!"sor"))["some"] + (!"ooo")["someooo"]
     find(requires, requiresType).forEach {
         println(it.asMulti()[0] is ErrorExpressionResult)
         println(it.asMulti()[1] is ErrorExpressionResult)
         println(it.asMulti()[2] is ErrorExpressionResult)
     }
+    val require = parseRequiresType(requires)!!
+    println(require.some.isError?.text(requires))
     val tokens = "some<ooo>"
     val type = parseType(tokens)!!
     type.isGenericType.then {

@@ -32,6 +32,9 @@ val genericType = cold { allowedName["name"] + !"<" + type["typeParameter"] + !"
 @Type
 val type: EachOfExpression = anyOf(genericType, klass)
 
+@Type
+val requiresType = (!"ooo")["ooo"] + require((!"sor"))["some"] + (!"ooo")["someooo"]
+
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
         TypeInfo(expression(), MultiExpression(arrayListOf(expression()["inside"])))
