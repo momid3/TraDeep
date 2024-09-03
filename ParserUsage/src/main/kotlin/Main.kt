@@ -1,9 +1,18 @@
 package com.momid
 
-import com.momid.parser.expression.ExpressionResult
-import com.momid.parser.expression.correspondingTokensText
+import com.momid.parser.expression.*
+import com.momid.parser.find
+import com.momid.parser.not
+import com.momid.type.asMulti
 
 fun main() {
+    val requires = "ooosomeofrequireooo"
+    val requiresType = (!"ooo")["ooo"] + require((!"sor")["some"]) + (!"ooo")["someooo"]
+    find(requires, requiresType).forEach {
+        println(it.asMulti()[0] is ErrorExpressionResult)
+        println(it.asMulti()[1] is ErrorExpressionResult)
+        println(it.asMulti()[2] is ErrorExpressionResult)
+    }
     val tokens = "some<ooo>"
     val type = parseType(tokens)!!
     type.isGenericType.then {

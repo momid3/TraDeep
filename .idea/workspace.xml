@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ParserRules/src/main/kotlin/generated.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserRules/src/main/kotlin/generated.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ParserUsage/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserUsage/src/main/kotlin/Main.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,55 +94,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Gradle.Build TraDeep.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build TraDeep3.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserTest.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TraDeep [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.TraDeep [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin script (Beta).build.gradle.kts.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.FinderUtilsKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt (1).executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RegisterKt (1).executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RegisterKt (2).executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RegisterKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RegisterTypesKt (1).executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RegisterTypesKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.RuntimeKt.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.User Parsing Rules.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;16&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_directory_selection&quot;: &quot;C:/Users/moham/IdeaProjects/TraDeep3/ParserUsage/src/test/kotlin&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.Build TraDeep.executor": "Run",
+    "Gradle.Build TraDeep3.executor": "Run",
+    "Gradle.ParserTest.executor": "Run",
+    "Gradle.TraDeep [build].executor": "Run",
+    "Gradle.TraDeep [clean].executor": "Run",
+    "Gradle.TraDeep3 [clean].executor": "Run",
+    "Kotlin script (Beta).build.gradle.kts.executor": "Run",
+    "Kotlin.FinderUtilsKt.executor": "Run",
+    "Kotlin.MainKt (1).executor": "Run",
+    "Kotlin.MainKt.executor": "Run",
+    "Kotlin.RegisterKt (1).executor": "Run",
+    "Kotlin.RegisterKt (2).executor": "Run",
+    "Kotlin.RegisterKt.executor": "Run",
+    "Kotlin.RegisterTypesKt (1).executor": "Run",
+    "Kotlin.RegisterTypesKt.executor": "Run",
+    "Kotlin.RuntimeKt.executor": "Run",
+    "Kotlin.User Parsing Rules.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "master",
+    "jdk.selected.JAVA_MODULE": "16",
+    "kotlin-language-version-configured": "true",
+    "last_directory_selection": "C:/Users/moham/IdeaProjects/TraDeep3/ParserUsage/src/test/kotlin",
+    "last_opened_file_path": "C:/Users/moham/IdeaProjects/TraDeep3/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "copyright",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;kotlin-gradle-user-dirs&quot;: [
-      &quot;C:\\Users\\moham\\.gradle&quot;
+  "keyToStringList": {
+    "kotlin-gradle-user-dirs": [
+      "C:\\Users\\moham\\.gradle"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\moham\IdeaProjects\TraDeep3\src\main\resources" />
@@ -189,6 +192,28 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="TraDeep3 [clean]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="clean" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="MainKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.momid.MainKt" />
       <module name="TraDeep.ParserUsage.main" />
@@ -211,6 +236,7 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Gradle.TraDeep3 [clean]" />
       <item itemvalue="Gradle.ParserTest" />
       <item itemvalue="Kotlin.RegisterKt" />
       <item itemvalue="Kotlin.RegisterTypesKt" />
@@ -219,6 +245,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
+        <item itemvalue="Gradle.TraDeep3 [clean]" />
         <item itemvalue="Kotlin.RegisterTypesKt" />
         <item itemvalue="Kotlin.RegisterKt" />
         <item itemvalue="Gradle.ParserTest" />
@@ -295,7 +322,8 @@
       <workItem from="1725165520724" duration="66000" />
       <workItem from="1725165628969" duration="13000" />
       <workItem from="1725165660127" duration="717000" />
-      <workItem from="1725166411374" duration="20248000" />
+      <workItem from="1725166411374" duration="24273000" />
+      <workItem from="1725328906304" duration="8940000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -393,7 +421,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725254733424</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="fixes">
+      <option name="closed" value="true" />
+      <created>1725256522210</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725256522210</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

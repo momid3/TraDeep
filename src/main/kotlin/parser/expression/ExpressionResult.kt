@@ -13,6 +13,11 @@ class ContentExpressionResult(val mainExpressionResult: ExpressionResult, val co
  */
 class ContinueExpressionResult(val mainExpressionResult: ExpressionResult, val content: ExpressionResult?): ExpressionResult(mainExpressionResult.expression, mainExpressionResult.range, mainExpressionResult.nextTokenIndex)
 
+/***
+ * the result of RequireExpression when it did not find the expression
+ */
+class ErrorExpressionResult(expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex)
+
 //fun ExpressionResult.getRange(): IntRange? {
 //    when (this) {
 //        is ExpressionResult -> return this.range

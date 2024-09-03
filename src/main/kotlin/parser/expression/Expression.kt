@@ -39,6 +39,8 @@ class NotExpression(val expression: Expression): Expression()
 
 class CustomExpression(val typeInfo: TypeInfo? = null, val condition: (tokens: List<Char>, startIndex: Int, endIndex: Int, thisExpression: CustomExpression) -> ExpressionResult?): Expression()
 
+class RequireExpression(val expression: Expression): Expression()
+
 class ColdExpression(val expression: () -> Expression): Expression()
 
 class TypeInfo(val inputExpression: Expression, val outputExpression: Expression)
@@ -64,6 +66,8 @@ interface EvaluateExpression {
 
     fun evaluate(startIndex: Int, tokens: List<Char>): Int
 }
+
+var currentErroredExpressionResult: ExpressionResult? = null
 
 fun evaluateExpression(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
     if (startIndex >= endIndex) {
@@ -98,26 +102,49 @@ fun eval(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: 
 //            return null
 //        }
     }
-    when (expression) {
-        is MultiExpression -> return eval(expression, startIndex, tokens, endIndex)
-        is EachOfExpression -> return eval(expression, startIndex, tokens, endIndex)
-        is RecurringSomeExpression -> return eval(expression, startIndex, tokens, endIndex)
-        is RecurringSome0Expression -> return eval(expression, startIndex, tokens, endIndex)
-        is CustomExpression -> return eval(expression, startIndex, tokens, endIndex)
-        is ColdExpression -> return eval(expression.expression(), startIndex, tokens, endIndex).apply {
+    val expressionResult = when (expression) {
+        is MultiExpression -> eval(expression, startIndex, tokens, endIndex)
+        is EachOfExpression -> eval(expression, startIndex, tokens, endIndex)
+        is RecurringSomeExpression -> eval(expression, startIndex, tokens, endIndex)
+        is RecurringSome0Expression -> eval(expression, startIndex, tokens, endIndex)
+        is CustomExpression -> eval(expression, startIndex, tokens, endIndex)
+        is ColdExpression -> eval(expression.expression(), startIndex, tokens, endIndex).apply {
             if (this != null) {
                 this.expression = expression
             }
         }
+        is RequireExpression -> eval(expression, startIndex, tokens, endIndex)
         else -> {
             val tokensEndIndex = evaluateExpression(expression, startIndex, tokens, endIndex)
             if (tokensEndIndex != -1) {
-                return ExpressionResult(expression, startIndex .. tokensEndIndex)
+                ExpressionResult(expression, startIndex .. tokensEndIndex)
             } else {
-                return null
+                null
             }
         }
     }
+
+    if (currentErroredExpressionResult != null) {
+        if (expressionResult != null) {
+            if (expressionResult !is ErrorExpressionResult) {
+                currentErroredExpressionResult!!.range = currentErroredExpressionResult!!.range.first..expressionResult.range.first
+                currentErroredExpressionResult = null
+            }
+        } else {
+            if (startIndex + 1 >= endIndex) {
+                currentErroredExpressionResult = null
+                return null
+            } else {
+                return eval(expression, startIndex + 1, tokens, endIndex)
+            }
+        }
+    }
+
+    if (expressionResult is ErrorExpressionResult) {
+        currentErroredExpressionResult = expressionResult
+    }
+
+    return expressionResult
 }
 
 fun evaluateExpression(exactExpression: ExactExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
@@ -338,6 +365,17 @@ fun evaluateExpression(notExpression: NotExpression, startIndex: Int, tokens: Li
         return startIndex
     } else {
         return -1
+    }
+}
+
+fun eval(requireExpression: RequireExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult {
+    val expressionResult = eval(requireExpression.expression, startIndex, tokens, endIndex)
+    if (expressionResult == null) {
+        return ErrorExpressionResult(ExpressionResult(requireExpression, startIndex..startIndex, startIndex))
+    } else {
+        return expressionResult.apply {
+            this.expression = requireExpression
+        }
     }
 }
 
