@@ -15,13 +15,15 @@ fun main() {
     }
     val require = parseRequiresType(requires)!!
     println(require.some.isError?.text(requires))
-    val tokens = "some<ooo>"
-    val type = parseType(tokens)!!
-    type.isGenericType.then {
-        it.name.text(tokens).println()
-    }
-    type.isKlass.then {
-        it.text(tokens).println()
+    val tokens = "some<ooo>some<ooo>some<ooo>"
+    val type = parseTypes(tokens)!!
+    type.forEach {
+        it.isGenericType.then {
+            it.name.text(tokens).println()
+        }
+        it.isKlass.then {
+            it.text(tokens).println()
+        }
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"
     val functionCall = parseFullFunctionCall(text)!!

@@ -139,6 +139,19 @@ return Parameters(parsed)
 return null
 }
 }
+class Types(val expressionResult: ExpressionResult, val items: List<Type> = expressionResult.asMulti().map {
+Type(it)
+}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<Type> by items {
+
+}
+fun parseTypes(tokens: String): Types? {
+val parsed = eval(types, 0, tokens.toList(), tokens.length)
+if (parsed != null) {
+return Types(parsed)
+} else {
+return null
+}
+}
 class Anonymous2(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 val inside: List<Parameter>
 get() {

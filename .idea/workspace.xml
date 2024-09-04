@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="fixes">
+    <list default="true" id="32aad136-35a5-4643-a4f8-40d01138426d" name="Changes" comment="implement require expression">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserRules/src/main/kotlin/ParsingRules.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ParserRules/src/main/kotlin/generated.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserRules/src/main/kotlin/generated.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ParserUsage/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/ParserUsage/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/Expression.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionConvenience.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/parser/expression/ExpressionResult.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/type/Register.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -245,8 +244,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Kotlin.MainKt" />
-        <item itemvalue="Gradle.TraDeep3 [clean]" />
         <item itemvalue="Kotlin.RegisterTypesKt" />
+        <item itemvalue="Gradle.TraDeep3 [clean]" />
         <item itemvalue="Kotlin.RegisterKt" />
         <item itemvalue="Gradle.ParserTest" />
       </list>
@@ -323,7 +322,7 @@
       <workItem from="1725165628969" duration="13000" />
       <workItem from="1725165660127" duration="717000" />
       <workItem from="1725166411374" duration="24273000" />
-      <workItem from="1725328906304" duration="8940000" />
+      <workItem from="1725328906304" duration="17865000" />
     </task>
     <task id="LOCAL-00001" summary="initial">
       <option name="closed" value="true" />
@@ -429,7 +428,23 @@
       <option name="project" value="LOCAL" />
       <updated>1725256522210</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="implement require expression">
+      <option name="closed" value="true" />
+      <created>1725344214116</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1725344214116</updated>
+    </task>
+    <task id="LOCAL-00015" summary="implement require expression">
+      <option name="closed" value="true" />
+      <created>1725349704170</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1725349704170</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,7 +455,8 @@
     <MESSAGE value="include parsing usage" />
     <MESSAGE value="implemented cold types" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="implement require expression" />
+    <option name="LAST_COMMIT_MESSAGE" value="implement require expression" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

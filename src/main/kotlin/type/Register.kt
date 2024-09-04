@@ -133,6 +133,9 @@ fun generateTypeClassForExpression(
     if (type is RequireExpression) {
         generateTypeClassForExpression(type.expression, name + "Require", generatedClasses, types, includeInGeneratedClasses)
     }
+    if (type is NotExpression) {
+        generateTypeClassForExpression(type.expression, name + "Require", generatedClasses, types, includeInGeneratedClasses)
+    }
     if (type is MultiExpression) {
         val properties = ArrayList<TypeProperty>()
         val generatedClass = TypeClass(name, properties)
@@ -241,6 +244,38 @@ fun generateTypeClassForExpression(
                 }
             }
         }
+    } else if (type is RecurringSomeExpression) {
+        val definedTypeClass = DefinedTypeClass(DefinedTypeClassValue.List, TypeClass("", listOf()))
+        definedTypeClass.name = name
+        if (includeInGeneratedClasses) {
+            generatedClasses[type] = definedTypeClass
+        }
+        val outputExpressionName = expressionName(type.expression, types)
+
+        val typeClass = generatedClasses[type.expression] ?: generateTypeClassForExpression(
+            type.expression,
+            outputExpressionName,
+            generatedClasses,
+            types
+        )
+        definedTypeClass.innerType = typeClass
+        return definedTypeClass
+    } else if (type is RecurringSome0Expression) {
+        val definedTypeClass = DefinedTypeClass(DefinedTypeClassValue.List, TypeClass("", listOf()))
+        definedTypeClass.name = name
+        if (includeInGeneratedClasses) {
+            generatedClasses[type] = definedTypeClass
+        }
+        val outputExpressionName = expressionName(type.expression, types)
+
+        val typeClass = generatedClasses[type.expression] ?: generateTypeClassForExpression(
+            type.expression,
+            outputExpressionName,
+            generatedClasses,
+            types
+        )
+        definedTypeClass.innerType = typeClass
+        return definedTypeClass
     } else if (type is ColdExpression) {
         val generatedClass = TypeClass(name, listOf())
         val existing = generatedClasses[type]

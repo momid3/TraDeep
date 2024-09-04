@@ -35,6 +35,9 @@ val type: EachOfExpression = anyOf(genericType, klass)
 @Type
 val requiresType = (!"ooo")["ooo"] + require((!"sor"))["some"] + (!"ooo")["someooo"]
 
+@Type
+val types = some(type)
+
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
         TypeInfo(expression(), MultiExpression(arrayListOf(expression()["inside"])))
