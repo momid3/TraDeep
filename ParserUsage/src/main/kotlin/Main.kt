@@ -15,14 +15,20 @@ fun main() {
     }
     val require = parseRequiresType(requires)!!
     println(require.some.isError?.text(requires))
-    val tokens = "some<ooo>some<ooo>some<ooo>"
+    val tokens = "some<ooo>___some<ooo>some<ooo>"
     val type = parseTypes(tokens)!!
     type.forEach {
-        it.isGenericType.then {
-            it.name.text.println()
+        it.isOk.then {
+            it.isGenericType.then {
+                it.text.println()
+                ("generic " + it.name.text).println()
+            }
+            it.isKlass.then {
+                ("klass " + it.text).println()
+            }
         }
-        it.isKlass.then {
-            it.text.println()
+        it.isError.then {
+            ("not this type " + it.text).println()
         }
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"

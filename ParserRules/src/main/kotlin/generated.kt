@@ -139,9 +139,28 @@ return Parameters(parsed)
 return null
 }
 }
-class Types(val expressionResult: ExpressionResult, val items: List<Type> = expressionResult.asMulti().map {
-Type(it)
-}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<Type> by items {
+class Anonymous15(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
+val isOk: Anonymous15Require? 
+get() {
+return if(expressionResult !is ErrorExpressionResult) {
+Anonymous15Require(expressionResult)
+} else {
+null
+}
+}
+val isError: ErrorExpressionResult? 
+get() {
+return if(expressionResult is ErrorExpressionResult)
+ {expressionResult
+} else {
+null
+}
+}
+}
+class Types(val expressionResult: ExpressionResult, val items: List<Anonymous15> = expressionResult.asMulti().map {
+Anonymous15(it)
+}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<Anonymous15> by items {
 
 }
 fun parseTypes(tokens: String): Types? {
@@ -181,6 +200,18 @@ return FunctionCall(parsed)
 } else {
 return null
 }
+}
+class Anonymous15Require(val expressionResult: ExpressionResult, val isGenericType: GenericType? = if (expressionResult.content.expression == genericType) {
+GenericType(expressionResult.content)
+} else {
+null
+},
+val isKlass: Klass? = if (expressionResult.content.expression == klass) {
+Klass(expressionResult.content)
+} else {
+null
+}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
 }
 class Anonymous6(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 val functionName: AllowedName
