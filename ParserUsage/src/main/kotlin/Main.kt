@@ -19,10 +19,10 @@ fun main() {
     val type = parseTypes(tokens)!!
     type.forEach {
         it.isGenericType.then {
-            it.name.text(tokens).println()
+            it.name.text.println()
         }
         it.isKlass.then {
-            it.text(tokens).println()
+            it.text.println()
         }
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"

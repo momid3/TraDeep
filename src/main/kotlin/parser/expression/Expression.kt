@@ -67,6 +67,8 @@ interface EvaluateExpression {
     fun evaluate(startIndex: Int, tokens: List<Char>): Int
 }
 
+var tokens: List<Char>? = null
+
 var currentErroredExpressionResult: ExpressionResult? = null
 
 fun evaluateExpression(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
@@ -91,6 +93,11 @@ fun evaluateExpression(expression: Expression, startIndex: Int, tokens: List<Cha
         is CustomExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         else -> throw(Throwable("unknown expression kind"))
     }
+}
+
+fun firstEval(expression: Expression, startIndex: Int, parsingTokens: List<Char>, endIndex: Int = parsingTokens.size): ExpressionResult? {
+    tokens = parsingTokens
+    return eval(expression, startIndex, parsingTokens, endIndex)
 }
 
 fun eval(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult? {

@@ -47,6 +47,11 @@ fun <T : Expression> ExpressionResult.isOfForEach(expression: T, block: (Express
     }
 }
 
+val ExpressionResult.text: String
+    get() {
+        return tokens!!.slice(this.range.first until this.range.last).joinToString("")
+    }
+
 fun require(expression: Expression): RequireExpression {
     return RequireExpression(expression)
 }

@@ -53,7 +53,7 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
                 "nothing for class " + typeClass.innerType
             }
         } + if (!typeClass.name.contains("anonymous", true)) {
-            "\nfun parse" + typeClass.name + "(tokens: String): " + typeClass.name + "? {\nval parsed = " + "eval(" + typeClass.name.decapitalize() + ", " + "0" + ", " + "tokens.toList()" + ", " + "tokens.length" + ")\n" + "if (" + "parsed" + " != null) {\nreturn " + typeClass.name + "(parsed)" + "\n} else {\nreturn null\n}\n}"
+            "\nfun parse" + typeClass.name + "(tokens: String): " + typeClass.name + "? {\nval parsed = " + "firstEval(" + typeClass.name.decapitalize() + ", " + "0" + ", " + "tokens.toList()" + ", " + "tokens.length" + ")\n" + "if (" + "parsed" + " != null) {\nreturn " + typeClass.name + "(parsed)" + "\n} else {\nreturn null\n}\n}"
         } else {
             ""
         }

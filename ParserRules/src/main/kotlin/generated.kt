@@ -6,7 +6,7 @@ class Klass(val expressionResult: ExpressionResult): ExpressionResult(expression
 
 }
 fun parseKlass(tokens: String): Klass? {
-val parsed = eval(klass, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(klass, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Klass(parsed)
 } else {
@@ -24,7 +24,7 @@ return Type(expressionResult["typeParameter"])
 }
 }
 fun parseGenericType(tokens: String): GenericType? {
-val parsed = eval(genericType, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(genericType, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return GenericType(parsed)
 } else {
@@ -44,7 +44,7 @@ null
 
 }
 fun parseType(tokens: String): Type? {
-val parsed = eval(type, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(type, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Type(parsed)
 } else {
@@ -58,7 +58,7 @@ class AllowedName(val expressionResult: ExpressionResult): ExpressionResult(expr
 
 }
 fun parseAllowedName(tokens: String): AllowedName? {
-val parsed = eval(allowedName, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(allowedName, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return AllowedName(parsed)
 } else {
@@ -94,7 +94,7 @@ return AllowedName(expressionResult["variableName"])
 }
 }
 fun parseParameter(tokens: String): Parameter? {
-val parsed = eval(parameter, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(parameter, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Parameter(parsed)
 } else {
@@ -116,7 +116,7 @@ return Anonymous13(expressionResult["someooo"])
 }
 }
 fun parseRequiresType(tokens: String): RequiresType? {
-val parsed = eval(requiresType, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(requiresType, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return RequiresType(parsed)
 } else {
@@ -132,7 +132,7 @@ Parameter(it)
 
 }
 fun parseParameters(tokens: String): Parameters? {
-val parsed = eval(parameters, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(parameters, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Parameters(parsed)
 } else {
@@ -145,7 +145,7 @@ Type(it)
 
 }
 fun parseTypes(tokens: String): Types? {
-val parsed = eval(types, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(types, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return Types(parsed)
 } else {
@@ -175,7 +175,7 @@ return Anonymous0(expressionResult["parameters"])
 }
 }
 fun parseFunctionCall(tokens: String): FunctionCall? {
-val parsed = eval(functionCall, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(functionCall, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return FunctionCall(parsed)
 } else {
@@ -211,7 +211,7 @@ return Anonymous3(expressionResult["ooo"])
 }
 }
 fun parseFullFunctionCall(tokens: String): FullFunctionCall? {
-val parsed = eval(fullFunctionCall, 0, tokens.toList(), tokens.length)
+val parsed = firstEval(fullFunctionCall, 0, tokens.toList(), tokens.length)
 if (parsed != null) {
 return FullFunctionCall(parsed)
 } else {
