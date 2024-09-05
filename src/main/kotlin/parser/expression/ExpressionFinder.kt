@@ -17,7 +17,7 @@ class ExpressionFinder {
                 if (currentTokenIndex >= maxTokenIndex) {
                     break@whi
                 }
-                val expressionResult = eval(expression, currentTokenIndex, tokens, maxTokenIndex) ?: continue
+                val expressionResult = firstEval(expression, currentTokenIndex, tokens, maxTokenIndex) ?: continue
                 currentTokenIndex = expressionResult.nextTokenIndex
                 foundExpressions.add(expressionResult)
                 continue@whi
@@ -40,7 +40,7 @@ class ExpressionFinder {
             if (currentTokenIndex >= maxTokenIndex) {
                 break@whi
             }
-            val expressionResult = eval(expression, currentTokenIndex, tokens, maxTokenIndex) ?: continue
+            val expressionResult = firstEval(expression, currentTokenIndex, tokens, maxTokenIndex) ?: continue
             currentTokenIndex = expressionResult.nextTokenIndex
             foundExpressions.add(expressionResult)
             continue@whi

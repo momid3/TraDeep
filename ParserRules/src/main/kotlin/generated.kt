@@ -2,16 +2,24 @@ package com.momid
 
 import com.momid.parser.expression.*
 
-class Anonymous6(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous6(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: CodeBlock
         get() {
             return CodeBlock(expressionResult["inside"])
         }
 }
 
-class Identifier(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Identifier(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
@@ -24,16 +32,24 @@ fun parseIdentifier(tokens: String): Identifier? {
     }
 }
 
-class Anonymous4(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous4(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: CodeBlock
         get() {
             return CodeBlock(expressionResult["inside"])
         }
 }
 
-class Argument(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Argument(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val argumentName: Identifier
         get() {
             return Identifier(expressionResult["argumentName"])
@@ -53,8 +69,12 @@ fun parseArgument(tokens: String): Argument? {
     }
 }
 
-class AllowedName(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class AllowedName(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
@@ -67,8 +87,12 @@ fun parseAllowedName(tokens: String): AllowedName? {
     }
 }
 
-class Parameter(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Parameter(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val variableName: AllowedName
         get() {
             return AllowedName(expressionResult["variableName"])
@@ -88,8 +112,12 @@ class Parameters(
     val expressionResult: ExpressionResult, val items: List<Parameter> = expressionResult.asMulti().map {
         Parameter(it)
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Parameter> by items {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Parameter> by items {
 
 }
 
@@ -102,24 +130,36 @@ fun parseParameters(tokens: String): Parameters? {
     }
 }
 
-class Anonymous9(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous9(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: Parameters
         get() {
             return Parameters(expressionResult["inside"])
         }
 }
 
-class Anonymous7(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous7(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: Parameters
         get() {
             return Parameters(expressionResult["inside"])
         }
 }
 
-class FunctionCall(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class FunctionCall(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val functionName: AllowedName
         get() {
             return AllowedName(expressionResult["functionName"])
@@ -139,8 +179,12 @@ fun parseFunctionCall(tokens: String): FunctionCall? {
     }
 }
 
-class Anonymous13(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous13(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val functionName: AllowedName
         get() {
             return AllowedName(expressionResult["functionName"])
@@ -151,24 +195,36 @@ class Anonymous13(val expressionResult: ExpressionResult) :
         }
 }
 
-class Anonymous12(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous12(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: Anonymous13
         get() {
             return Anonymous13(expressionResult["inside"])
         }
 }
 
-class Anonymous10(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous10(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val inside: Anonymous13
         get() {
             return Anonymous13(expressionResult["inside"])
         }
 }
 
-class FullFunctionCall(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class FullFunctionCall(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val ooo: Anonymous10
         get() {
             return Anonymous10(expressionResult["ooo"])
@@ -184,8 +240,12 @@ fun parseFullFunctionCall(tokens: String): FullFunctionCall? {
     }
 }
 
-class Klass(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Klass(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
@@ -198,8 +258,12 @@ fun parseKlass(tokens: String): Klass? {
     }
 }
 
-class GenericType(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class GenericType(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val name: AllowedName
         get() {
             return AllowedName(expressionResult["name"])
@@ -231,7 +295,12 @@ class Type(
     } else {
         null
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
@@ -244,18 +313,30 @@ fun parseType(tokens: String): Type? {
     }
 }
 
-class Anonymous15(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous15(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
-class Anonymous19(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous19(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
-class Anonymous17(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous17(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
     val isOk: Anonymous19?
         get() {
@@ -275,8 +356,12 @@ class Anonymous17(val expressionResult: ExpressionResult) :
         }
 }
 
-class RequiresType(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class RequiresType(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val ooo: Anonymous15
         get() {
             return Anonymous15(expressionResult["ooo"])
@@ -300,13 +385,21 @@ fun parseRequiresType(tokens: String): RequiresType? {
     }
 }
 
-class Anonymous20(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous20(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
-class Anonymous22(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous22(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
     val isOk: Type?
         get() {
@@ -330,8 +423,12 @@ class Types(
     val expressionResult: ExpressionResult, val items: List<Anonymous22> = expressionResult.asMulti().map {
         Anonymous22(it)
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Anonymous22> by items {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Anonymous22> by items {
 
 }
 
@@ -344,13 +441,21 @@ fun parseTypes(tokens: String): Types? {
     }
 }
 
-class Anonymous24(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous24(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
-class Anonymous23(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous23(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
     val isOk: Anonymous24?
         get() {
@@ -374,8 +479,12 @@ class Numbers(
     val expressionResult: ExpressionResult, val items: List<Anonymous23> = expressionResult.asMulti().map {
         Anonymous23(it)
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Anonymous23> by items {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Anonymous23> by items {
 
 }
 
@@ -392,13 +501,21 @@ class Anonymous2(
     val expressionResult: ExpressionResult, val items: List<Argument> = expressionResult.asMulti().map {
         Argument(it)
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Argument> by items {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Argument> by items {
 
 }
 
-class Anonymous1(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class Anonymous1(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
 
 }
 
@@ -406,8 +523,12 @@ class CodeBlock(
     val expressionResult: ExpressionResult, val items: List<Anonymous1> = expressionResult.asMulti().map {
         Anonymous1(it)
     }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Anonymous1> by items {
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Anonymous1> by items {
 
 }
 
@@ -420,8 +541,12 @@ fun parseCodeBlock(tokens: String): CodeBlock? {
     }
 }
 
-class FunctionDeclaration(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+class FunctionDeclaration(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
     val functionName: Identifier
         get() {
             return Identifier(expressionResult["functionName"])

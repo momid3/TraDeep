@@ -17,12 +17,12 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
             if (expression is RequireExpression) {
                 val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
                 val expressionClassName = typeName(expressionTypeClass)
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
                         "\n" + "val isOk: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
                         "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
                         "\n}"
             } else {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
                     "\n"
                 ) {
                     "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
@@ -30,7 +30,7 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
             }
         } else {
             if (typeClass.type == DefinedTypeClassValue.List) {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult, val items: List<" + typeClass.innerType.name + "> = expressionResult.asMulti().map {\n" + typeClass.innerType.name + "(it)\n}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<" + typeClass.innerType.name + "> by items {\n" + typeClass.properties.joinToString(
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult, val items: List<" + typeClass.innerType.name + "> = expressionResult.asMulti().map {\n" + typeClass.innerType.name + "(it)\n}): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<" + typeClass.innerType.name + "> by items {\n" + typeClass.properties.joinToString(
                     "\n"
                 ) {
                     "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
@@ -40,13 +40,13 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
                     ",\n"
                 ) {
                     "val is" + it.name + ": " + it.name + "? = if (expressionResult.content.expression == " + it.name.decapitalize() + ") {\n" + it.name + "(expressionResult.content)\n} else {\nnull\n}"
-                } + "): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+                } + "): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
                     "\n"
                 ) {
                     "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
                 } + "\n}"
             } else if (typeClass.type == DefinedTypeClassValue.Expression) {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.innerType.properties.joinToString(
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.innerType.properties.joinToString(
                     "\n"
                 ) {
                     "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"

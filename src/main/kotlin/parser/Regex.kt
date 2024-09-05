@@ -8,7 +8,7 @@ fun match(expression: Expression, tokens: List<Char>): List<ExpressionResult> {
     var tokenIndex = 0
 
     while (true) {
-        val nextMatch = eval(expression, tokenIndex, tokens)
+        val nextMatch = firstEval(expression, tokenIndex, tokens)
         if (nextMatch == null) {
             tokenIndex += 1
         } else {
