@@ -6,75 +6,9 @@ val spaces by lazy {
     some0(condition { it.isWhitespace() }).apply { this.isValueic = false }
 }
 
-fun inline(multiExpression: Expression): CustomExpression {
-    return CustomExpression() { tokens, startIndex, endIndex, thisExpression ->
-        val inlinedExpressionResults = ArrayList<ExpressionResult>()
-        val expressionResult = eval(multiExpression, startIndex, tokens, endIndex) ?: return@CustomExpression null
-        if (expressionResult !is MultiExpressionResult) {
-            throw(Throwable("expression " + multiExpression::class + "does not evaluate to a MultiExpressionResult"))
-        }
-        expressionResult.forEach {
-            if (it is MultiExpressionResult) {
-                inlinedExpressionResults.addAll(it.expressionResults)
-            } else {
-                inlinedExpressionResults.add(it)
-            }
-        }
-        expressionResult.expressionResults.clear()
-        expressionResult.expressionResults.addAll(inlinedExpressionResults)
-        return@CustomExpression ContentExpressionResult(ExpressionResult(multiExpression, expressionResult.range), expressionResult)
-    }
-}
-
-fun insideOf(expression: Expression, parenthesesStart: Char, parenthesesEnd: Char): CustomExpression {
-    return CustomExpression() { tokens, startIndex, endIndex, thisExpression ->
-        if (tokens[startIndex] != parenthesesStart) {
-            return@CustomExpression null
-        }
-        var numberOfLefts = 1
-        for (tokenIndex in startIndex + 1 until endIndex) {
-            if (tokens[tokenIndex] == parenthesesStart) {
-                numberOfLefts += 1
-            }
-            if (tokens[tokenIndex] == parenthesesEnd) {
-                numberOfLefts -= 1
-            }
-            if (numberOfLefts == 0) {
-                return@CustomExpression ContentExpressionResult(ExpressionResult(expression, startIndex .. tokenIndex + 1), ExpressionResult(expression, startIndex + 1 .. (tokenIndex + 1) - 1))
-            }
-        }
-        return@CustomExpression null
-    }
-}
-
-fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: Expression): CustomExpression {
-    return CustomExpression() { tokens, startIndex, endIndex, thisExpression ->
-        if (startIndex >= endIndex) {
-            return@CustomExpression null
-        }
-        if (tokens[startIndex] != parenthesesStart) {
-            return@CustomExpression null
-        }
-        var numberOfLefts = 1
-        for (tokenIndex in startIndex + 1 until endIndex) {
-            if (tokens[tokenIndex] == parenthesesStart) {
-                numberOfLefts += 1
-            }
-            if (tokens[tokenIndex] == parenthesesEnd) {
-                numberOfLefts -= 1
-            }
-            if (numberOfLefts == 0) {
-                val evaluation = eval(expression, startIndex + 1, tokens, (tokenIndex + 1) - 1)
-                return@CustomExpression ContinueExpressionResult(ExpressionResult(expression, startIndex .. tokenIndex + 1), evaluation)
-            }
-        }
-        return@CustomExpression null
-    }
-}
-
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
-        TypeInfo(expression(), AnyOf(expression()))
+        TypeInfo(expression(), type(expression()["inside"]))
     ) { tokens, startIndex, endIndex, thisExpression ->
         if (startIndex >= endIndex) {
             return@CustomExpression null
@@ -91,8 +25,9 @@ fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Exp
                 numberOfLefts -= 1
             }
             if (numberOfLefts == 0) {
-                val evaluation = eval(expression(), startIndex + 1, tokens, (tokenIndex + 1) - 1)
-                return@CustomExpression ContinueExpressionResult(ExpressionResult(thisExpression, startIndex .. tokenIndex + 1), evaluation)
+                val evaluation = eval(expression()["inside"], startIndex + 1, tokens, (tokenIndex + 1) - 1) ?: return@CustomExpression null
+                evaluation.expression.name = "inside"
+                return@CustomExpression MultiExpressionResult(ExpressionResult(thisExpression, startIndex .. tokenIndex + 1), arrayListOf(evaluation))
             }
         }
         return@CustomExpression null
@@ -186,16 +121,48 @@ fun until(expression: Expression): CustomExpression {
     return wanting(anything, expression)
 }
 
-fun matchesFully(expression: Expression, tokenSlice: List<Char>): Boolean {
-    return evaluateExpression(expression, 0, tokenSlice) == tokenSlice.size
+fun one(expression: Expression): CustomExpression {
+    return CustomExpression(
+        TypeInfo(
+            expression,
+            if (expression is MultiExpression) {
+                expression.find {
+                    it.name != null
+                } ?: throw (Throwable("there should be one named expression but yours has none"))
+            } else {
+                throw (Throwable("should be a multi expression"))
+            }
+        )
+    ) { tokens, startIndex, endIndex, thisExpression ->
+        val evaluation = eval(expression, startIndex, tokens, endIndex) ?: return@CustomExpression null
+        var namedExpressionResult: ExpressionResult? = null
+        if (evaluation is MultiExpressionResult) {
+            evaluation.forEach {
+                if (it.expression.name != null) {
+                    if (namedExpressionResult == null) {
+                        namedExpressionResult = it
+                    } else {
+                        throw (Throwable("there should be only one named expression"))
+                    }
+                }
+            }
+            if (namedExpressionResult == null) {
+                throw (Throwable("there should be one named expression but yours has none"))
+            } else {
+                return@CustomExpression namedExpressionResult!!.apply {
+                    this.nextTokenIndex = evaluation.nextTokenIndex
+                    this.expression = thisExpression
+                }
+            }
+        } else {
+            evaluation
+        }
+    }
 }
 
-fun Expression.andAlso(vararg otherExpressions: Expression): CustomExpression {
-    return CustomExpression { tokens, startIndex, endIndex, thisExpression ->
-        val evaluation = eval(this, startIndex, tokens, endIndex) ?: return@CustomExpression null
-        for (expression in otherExpressions) {
-            eval(expression, startIndex, tokens, endIndex)?.nextTokenIndex ?: return@CustomExpression null
-        }
-        return@CustomExpression evaluation
+fun same(expression: Expression): Expression {
+    return expression[expression.name ?: ""].apply {
+        currentExpressionId += 1
+        this.id = currentExpressionId
     }
 }
