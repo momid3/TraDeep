@@ -53,7 +53,7 @@ val ExpressionResult.text: String
     }
 
 fun type(vararg types: Expression): MultiExpression {
-    return MultiExpression(types.toList() as ArrayList<Expression>)
+    return MultiExpression(ArrayList(types.toList()))
 }
 
 fun require(expression: Expression): RequireExpression {

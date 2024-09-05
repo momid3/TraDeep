@@ -2,29 +2,7 @@ package com.momid
 
 import com.momid.parser.expression.*
 
-class HelloType(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-
-}
-
-fun parseHelloType(tokens: String): HelloType? {
-    val parsed = firstEval(helloType, 0, tokens.toList(), tokens.length)
-    if (parsed != null) {
-        return HelloType(parsed)
-    } else {
-        return null
-    }
-}
-
 class Anonymous6(val expressionResult: ExpressionResult) :
-    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-    val inside: CodeBlock
-        get() {
-            return CodeBlock(expressionResult["inside"])
-        }
-}
-
-class Anonymous4(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
     val inside: CodeBlock
         get() {
@@ -46,6 +24,14 @@ fun parseIdentifier(tokens: String): Identifier? {
     }
 }
 
+class Anonymous4(val expressionResult: ExpressionResult) :
+    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+    val inside: CodeBlock
+        get() {
+            return CodeBlock(expressionResult["inside"])
+        }
+}
+
 class Argument(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
     val argumentName: Identifier
@@ -65,22 +51,6 @@ fun parseArgument(tokens: String): Argument? {
     } else {
         return null
     }
-}
-
-class Anonymous21Require(
-    val expressionResult: ExpressionResult,
-    val isGenericType: GenericType? = if (expressionResult.content.expression == genericType) {
-        GenericType(expressionResult.content)
-    } else {
-        null
-    },
-    val isKlass: Klass? = if (expressionResult.content.expression == klass) {
-        Klass(expressionResult.content)
-    } else {
-        null
-    }
-) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-
 }
 
 class AllowedName(val expressionResult: ExpressionResult) :
@@ -279,7 +249,7 @@ class Anonymous15(val expressionResult: ExpressionResult) :
 
 }
 
-class Anonymous17Require(val expressionResult: ExpressionResult) :
+class Anonymous19(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 
 }
@@ -287,10 +257,10 @@ class Anonymous17Require(val expressionResult: ExpressionResult) :
 class Anonymous17(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 
-    val isOk: Anonymous17Require?
+    val isOk: Anonymous19?
         get() {
             return if (expressionResult !is ErrorExpressionResult) {
-                Anonymous17Require(expressionResult)
+                Anonymous19(expressionResult)
             } else {
                 null
             }
@@ -315,9 +285,9 @@ class RequiresType(val expressionResult: ExpressionResult) :
         get() {
             return Anonymous17(expressionResult["some"])
         }
-    val someooo: Anonymous19
+    val someooo: Anonymous20
         get() {
-            return Anonymous19(expressionResult["someooo"])
+            return Anonymous20(expressionResult["someooo"])
         }
 }
 
@@ -330,18 +300,18 @@ fun parseRequiresType(tokens: String): RequiresType? {
     }
 }
 
-class Anonymous19(val expressionResult: ExpressionResult) :
+class Anonymous20(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 
 }
 
-class Anonymous21(val expressionResult: ExpressionResult) :
+class Anonymous22(val expressionResult: ExpressionResult) :
     ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
 
-    val isOk: Anonymous21Require?
+    val isOk: Type?
         get() {
             return if (expressionResult !is ErrorExpressionResult) {
-                Anonymous21Require(expressionResult)
+                Type(expressionResult)
             } else {
                 null
             }
@@ -357,11 +327,11 @@ class Anonymous21(val expressionResult: ExpressionResult) :
 }
 
 class Types(
-    val expressionResult: ExpressionResult, val items: List<Anonymous21> = expressionResult.asMulti().map {
-        Anonymous21(it)
+    val expressionResult: ExpressionResult, val items: List<Anonymous22> = expressionResult.asMulti().map {
+        Anonymous22(it)
     }
 ) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
-    List<Anonymous21> by items {
+    List<Anonymous22> by items {
 
 }
 
@@ -369,6 +339,50 @@ fun parseTypes(tokens: String): Types? {
     val parsed = firstEval(types, 0, tokens.toList(), tokens.length)
     if (parsed != null) {
         return Types(parsed)
+    } else {
+        return null
+    }
+}
+
+class Anonymous24(val expressionResult: ExpressionResult) :
+    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
+}
+
+class Anonymous23(val expressionResult: ExpressionResult) :
+    ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
+
+    val isOk: Anonymous24?
+        get() {
+            return if (expressionResult !is ErrorExpressionResult) {
+                Anonymous24(expressionResult)
+            } else {
+                null
+            }
+        }
+    val isError: ErrorExpressionResult?
+        get() {
+            return if (expressionResult is ErrorExpressionResult) {
+                expressionResult
+            } else {
+                null
+            }
+        }
+}
+
+class Numbers(
+    val expressionResult: ExpressionResult, val items: List<Anonymous23> = expressionResult.asMulti().map {
+        Anonymous23(it)
+    }
+) : ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex),
+    List<Anonymous23> by items {
+
+}
+
+fun parseNumbers(tokens: String): Numbers? {
+    val parsed = firstEval(numbers, 0, tokens.toList(), tokens.length)
+    if (parsed != null) {
+        return Numbers(parsed)
     } else {
         return null
     }

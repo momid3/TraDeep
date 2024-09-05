@@ -1,9 +1,71 @@
 package com.momid.parser.expression
 
-import com.momid.type.anything
+import com.momid.parser.not
 
 val spaces by lazy {
     some0(condition { it.isWhitespace() }).apply { this.isValueic = false }
+}
+
+val space by lazy {
+    some(condition { it.isWhitespace() }).apply { this.isValueic = false }
+}
+
+val anything by lazy {
+    some0(condition {
+        true
+    })
+}
+
+val newLine by lazy {
+    anyOf(!"\n\r", !"\n")
+}
+
+val number by lazy {
+    some(condition {
+        it.isDigit()
+    })
+}
+
+val fNumber by lazy {
+    CustomExpression() { tokens, startIndex, endIndex, thisExpression ->
+        var index = startIndex
+        var hasPoint = false
+        var indexOfPoint = 0
+        if (index >= endIndex) {
+            return@CustomExpression null
+        }
+        while (true) {
+            if (index >= endIndex) {
+                break
+            }
+            if (!tokens[index].isDigit()) {
+                if (tokens[index] == '.') {
+                    if (!hasPoint) {
+                        hasPoint = true
+                        indexOfPoint = index
+                        if (index == endIndex - 1) {
+                            break
+                        }
+                        if (!tokens[index + 1].isDigit()) {
+                            break
+                        }
+                    } else {
+                        index = indexOfPoint
+                        break
+                    }
+                } else {
+                    if (index == startIndex) {
+                        return@CustomExpression null
+                    } else {
+                        break
+                    }
+                }
+            }
+            index += 1
+        }
+
+        return@CustomExpression ExpressionResult(thisExpression, startIndex..index, index)
+    }
 }
 
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {

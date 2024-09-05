@@ -37,3 +37,6 @@ val requiresType = (!"ooo")["ooo"] + require((!"sor"))["some"] + (!"ooo")["someo
 
 @Type
 val types = some(require(type))
+
+@Type
+val numbers = some(require(fNumber))

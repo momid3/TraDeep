@@ -15,8 +15,10 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
         val (expression, typeClass) = it
         if (typeClass !is DefinedTypeClass) {
             if (expression is RequireExpression) {
+                val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
+                val expressionClassName = typeName(expressionTypeClass)
                 "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
-                        "\n" + "val isOk: " + typeName(typeClass) + "Require" + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + typeClass.name + "Require" + "(expressionResult)\n} else {\nnull\n}\n}" +
+                        "\n" + "val isOk: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
                         "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
                         "\n}"
             } else {
@@ -131,10 +133,11 @@ fun generateTypeClassForExpression(
         println(type.condition)
     }
     if (type is RequireExpression) {
-        generateTypeClassForExpression(type.expression, name + "Require", generatedClasses, types, includeInGeneratedClasses)
+        val expressionName = expressionName(type.expression, types)
+        generateTypeClassForExpression(type.expression, expressionName, generatedClasses, types, includeInGeneratedClasses)
     }
     if (type is NotExpression) {
-        generateTypeClassForExpression(type.expression, name + "Require", generatedClasses, types, includeInGeneratedClasses)
+        generateTypeClassForExpression(type.expression, name, generatedClasses, types, includeInGeneratedClasses)
     }
     if (type is MultiExpression) {
         val properties = ArrayList<TypeProperty>()
@@ -351,69 +354,4 @@ fun cloneExpression(expression: Expression): Expression {
         currentExpressionId += 1
         this.id = currentExpressionId
     }
-}
-
-class ooo(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-
-}
-class some(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-    val name: ooo
-        get() {
-            return ooo(expressionResult["name"])
-        }
-    val value: ooo
-        get() {
-            return ooo(expressionResult["value"])
-        }
-}
-
-class Anonymous1(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-    val name: ooo
-        get() {
-            return ooo(expressionResult["name"])
-        }
-    val value: ooo
-        get() {
-            return ooo(expressionResult["value"])
-        }
-}
-class Anonymous0(val expressionResult: ExpressionResult, val items: List<ooo> = expressionResult.asMulti().map {
-    ooo(it)
-}): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<ooo> by items {
-
-}
-class Split(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {
-    val splitBeforeOoo: Anonymous0
-        get() {
-            return Anonymous0(expressionResult["splitBeforeOoo"])
-        }
-    val someAfterOoo: Anonymous1
-        get() {
-            return Anonymous1(expressionResult["someAfterOoo"])
-        }
-}
-
-//val split = splitByNW(ooo, ",")["splitBeforeOoo"]
-
-fun ExpressionResult.asMulti(): MultiExpressionResult {
-    if (this is MultiExpressionResult) {
-        return this
-    } else {
-        throw (Throwable("this expression result is not a multi expression result"))
-    }
-}
-
-val anything by lazy {
-    some0(condition { true })
-}
-
-fun main() {
-//    println(registerTypes(listOf(Pair(some, "some"), Pair(ooo, "ooo"))))
-
-//    println(registerTypes(listOf(Pair(ooo, "ooo"), Pair(split, "split"))))
-
-//    find("ooo,ooo", split).forEach {
-//        val split = Split(it)
-//        println(split.splitBeforeOoo.items.size)
-//    }
 }

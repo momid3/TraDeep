@@ -3,9 +3,18 @@ package com.momid
 import com.momid.parser.expression.*
 import com.momid.parser.find
 import com.momid.parser.not
-import com.momid.type.asMulti
 
 fun main() {
+    val numbersTokens = "ooo333.888ooo"
+    val numbers = parseNumbers(numbersTokens)!!
+    numbers.forEach {
+        it.isOk.then {
+            println(it.text)
+        }
+        it.isError.then {
+            println("is not a number " + it.text)
+        }
+    }
     val requires = "ooosomeofrequireooo"
     val requiresType = (!"ooo")["ooo"] + require((!"sor"))["some"] + (!"ooo")["someooo"]
     find(requires, requiresType).forEach {

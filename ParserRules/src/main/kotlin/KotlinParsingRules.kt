@@ -3,10 +3,6 @@ package com.momid
 import com.momid.parser.expression.*
 import com.momid.parser.not
 import com.momid.type.Type
-import com.momid.type.anything
-
-@Type
-val helloType = !"Hello"
 
 @Type
 val identifier = condition { it.isLetter() } + some(condition { it.isLetterOrDigit() })
