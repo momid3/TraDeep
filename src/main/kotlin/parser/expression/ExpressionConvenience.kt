@@ -52,6 +52,10 @@ val ExpressionResult.text: String
         return tokens!!.slice(this.range.first until this.range.last).joinToString("")
     }
 
+fun type(vararg types: Expression): MultiExpression {
+    return MultiExpression(types.toList() as ArrayList<Expression>)
+}
+
 fun require(expression: Expression): RequireExpression {
     return RequireExpression(expression)
 }

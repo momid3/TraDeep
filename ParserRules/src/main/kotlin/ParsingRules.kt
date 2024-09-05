@@ -40,7 +40,7 @@ val types = some(require(type))
 
 fun insideOf(parenthesesStart: Char, parenthesesEnd: Char, expression: () -> Expression): CustomExpression {
     return CustomExpression(
-        TypeInfo(expression(), MultiExpression(arrayListOf(expression()["inside"])))
+        TypeInfo(expression(), type(expression()["inside"]))
     ) { tokens, startIndex, endIndex, thisExpression ->
         if (startIndex >= endIndex) {
             return@CustomExpression null
