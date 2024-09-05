@@ -56,6 +56,16 @@ fun type(vararg types: Expression): MultiExpression {
     return MultiExpression(ArrayList(types.toList()))
 }
 
+fun <T: ExpressionResult> T?.then(block: (T) -> Unit) {
+    if (this != null) {
+        block(this)
+    }
+}
+
+fun <T: ExpressionResult> T.println() {
+    println(this.text)
+}
+
 fun require(expression: Expression): RequireExpression {
     return RequireExpression(expression)
 }

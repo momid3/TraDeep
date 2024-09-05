@@ -23,41 +23,27 @@ fun main() {
         println(it.asMulti()[2] is ErrorExpressionResult)
     }
     val require = parseRequiresType(requires)!!
-    println(require.some.isError?.text(requires))
+    println(require.some.isError?.text)
     val tokens = "some<ooo>___some<ooo>some<ooo>"
     val type = parseTypes(tokens)!!
     type.forEach {
         it.isOk.then {
             it.isGenericType.then {
-                it.text.println()
-                ("generic " + it.name.text).println()
+                it.println()
+                println("generic " + it.name.text)
             }
             it.isKlass.then {
-                ("klass " + it.text).println()
+                println("klass " + it.text)
             }
         }
         it.isError.then {
-            ("not this type " + it.text).println()
+            println("not this type " + it.text)
         }
     }
     val text = "some(fun validate(param, otherParam, anotherParam))"
     val functionCall = parseFullFunctionCall(text)!!
-    println(functionCall.ooo.inside.functionName.text(text))
+    println(functionCall.ooo.inside.functionName.text)
     functionCall.ooo.inside.parameters.inside.forEach {
-        println(it.variableName.text(text))
+        println(it.variableName.text)
     }
-}
-
-fun <T> T?.then(block: (T) -> Unit) {
-    if (this != null) {
-        block(this)
-    }
-}
-
-fun ExpressionResult.text(underlyingText: String): String {
-    return this.correspondingTokensText(underlyingText.toList())
-}
-
-fun <T> T?.println() {
-    println(this)
 }
