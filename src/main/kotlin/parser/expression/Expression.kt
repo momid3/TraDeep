@@ -69,8 +69,21 @@ interface EvaluateExpression {
 
 var tokens: List<Char>? = null
 
-var currentErroredExpressionResult: ExpressionResult? = null
-var nextExpression: Expression? = null
+val errors = HashMap<ExpressionResult, Expression?>()
+var isCurrentError: Boolean = false
+
+/***
+ * returns true if this expression is the next expression after an expression that evaluated to an ErrorExpressionResult
+ */
+fun hasError(expression: Expression): Boolean {
+    return errors.containsValue(expression)
+}
+
+fun errorOf(expression: Expression): ExpressionResult? {
+    return errors.entries.find { (error, next) ->
+        next == expression
+    }?.key
+}
 
 fun evaluateExpression(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
     if (startIndex >= endIndex) {
@@ -102,10 +115,9 @@ fun firstEval(expression: Expression, startIndex: Int, parsingTokens: List<Char>
 }
 
 fun eval(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult? {
-    if (currentErroredExpressionResult != null) {
-        if (nextExpression == null) {
-            nextExpression = expression
-        }
+    if (isCurrentError) {
+        errors.entries.last().setValue(expression)
+        isCurrentError = false
     }
     if (startIndex >= endIndex) {
         if (expression is RecurringSome0Expression) {
@@ -137,38 +149,34 @@ fun eval(expression: Expression, startIndex: Int, tokens: List<Char>, endIndex: 
         }
     }
 
-    if (expression == nextExpression) {
-        if (currentErroredExpressionResult != null) {
-            if (expressionResult != null) {
-                if (expressionResult !is ErrorExpressionResult) {
-                    currentErroredExpressionResult!!.range =
-                        currentErroredExpressionResult!!.range.first..expressionResult.range.first
-                    currentErroredExpressionResult = null
-                    nextExpression = null
-                    return expressionResult
-                } else {
-                    if (startIndex + 1 >= endIndex) {
-                        currentErroredExpressionResult = null
-                        nextExpression = null
-                        return null
-                    } else {
-                        return eval(expression, startIndex + 1, tokens, endIndex)
-                    }
-                }
+    if (hasError(expression)) {
+        if (expressionResult != null) {
+            if (expressionResult !is ErrorExpressionResult) {
+                val currentErroredExpressionResult = errorOf(expression)
+                currentErroredExpressionResult!!.range = currentErroredExpressionResult.range.first..expressionResult.range.first
+                errors.remove(errorOf(expression))
+                return expressionResult
             } else {
                 if (startIndex + 1 >= endIndex) {
-                    currentErroredExpressionResult = null
-                    nextExpression = null
+                    errors.remove(errorOf(expression))
                     return null
                 } else {
                     return eval(expression, startIndex + 1, tokens, endIndex)
                 }
             }
+        } else {
+            if (startIndex + 1 >= endIndex) {
+                errors.remove(errorOf(expression))
+                return null
+            } else {
+                return eval(expression, startIndex + 1, tokens, endIndex)
+            }
         }
     }
 
     if (expressionResult is ErrorExpressionResult) {
-        currentErroredExpressionResult = expressionResult
+        isCurrentError = true
+        errors[expressionResult] = null
     }
 
     return expressionResult

@@ -94,7 +94,7 @@ fun typeName(typeClass: TypeClass): String {
         return typeClass.name
     } else {
         if (typeClass.type == DefinedTypeClassValue.List) {
-            return "List<" + typeClass.innerType.name + ">"
+            return typeClass.name
         } else if (typeClass.type == DefinedTypeClassValue.Expression) {
             return typeClass.name
         } else if (typeClass.type == DefinedTypeClassValue.AnyOf) {
