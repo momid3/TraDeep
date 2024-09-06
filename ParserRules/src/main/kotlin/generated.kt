@@ -2,16 +2,64 @@ package com.momid
 
 import com.momid.parser.expression.*
 
-class Anonymous6(val expressionResult: ExpressionResult) : ExpressionResult(
+class Anonymous1(val expressionResult: ExpressionResult) : ExpressionResult(
     expressionResult.parser,
     expressionResult.expression,
     expressionResult.range,
     expressionResult.nextTokenIndex
 ) {
-    val inside: CodeBlock
+
+}
+
+class CodeBlock(
+    val expressionResult: ExpressionResult, val items: List<Anonymous1> = expressionResult.asMulti().map {
+        Anonymous1(it)
+    }
+) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+), List<Anonymous1> by items {
+
+}
+
+fun parseCodeBlock(tokens: String): CodeBlock? {
+    val parsed = firstEval(codeBlock, 0, tokens.toList(), tokens.length)
+    if (parsed != null) {
+        return CodeBlock(parsed)
+    } else {
+        return null
+    }
+}
+
+class FunctionDeclaration(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
+    val functionName: Identifier
         get() {
-            return CodeBlock(expressionResult["inside"])
+            return Identifier(expressionResult["functionName"])
         }
+    val arguments: Anonymous2
+        get() {
+            return Anonymous2(expressionResult["arguments"])
+        }
+    val functionBody: Anonymous4
+        get() {
+            return Anonymous4(expressionResult["functionBody"])
+        }
+}
+
+fun parseFunctionDeclaration(tokens: String): FunctionDeclaration? {
+    val parsed = firstEval(functionDeclaration, 0, tokens.toList(), tokens.length)
+    if (parsed != null) {
+        return FunctionDeclaration(parsed)
+    } else {
+        return null
+    }
 }
 
 class Identifier(val expressionResult: ExpressionResult) : ExpressionResult(
@@ -30,18 +78,6 @@ fun parseIdentifier(tokens: String): Identifier? {
     } else {
         return null
     }
-}
-
-class Anonymous4(val expressionResult: ExpressionResult) : ExpressionResult(
-    expressionResult.parser,
-    expressionResult.expression,
-    expressionResult.range,
-    expressionResult.nextTokenIndex
-) {
-    val inside: CodeBlock
-        get() {
-            return CodeBlock(expressionResult["inside"])
-        }
 }
 
 class Argument(val expressionResult: ExpressionResult) : ExpressionResult(
@@ -67,6 +103,30 @@ fun parseArgument(tokens: String): Argument? {
     } else {
         return null
     }
+}
+
+class Anonymous6(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
+    val inside: CodeBlock
+        get() {
+            return CodeBlock(expressionResult["inside"])
+        }
+}
+
+class Anonymous4(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
+    val inside: CodeBlock
+        get() {
+            return CodeBlock(expressionResult["inside"])
+        }
 }
 
 class AllowedName(val expressionResult: ExpressionResult) : ExpressionResult(
@@ -497,6 +557,52 @@ fun parseNumbers(tokens: String): Numbers? {
     }
 }
 
+class Anonymous25(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
+
+    val isPresent: AllowedName?
+        get() {
+            return if (expressionResult.range.first != expressionResult.range.last) {
+                AllowedName(expressionResult)
+            } else {
+                null
+            }
+        }
+    val isNotPresent: Boolean
+        get() {
+            return expressionResult.range.first == expressionResult.range.last
+        }
+}
+
+class OptionalTypes(val expressionResult: ExpressionResult) : ExpressionResult(
+    expressionResult.parser,
+    expressionResult.expression,
+    expressionResult.range,
+    expressionResult.nextTokenIndex
+) {
+    val identifier: Anonymous25
+        get() {
+            return Anonymous25(expressionResult["identifier"])
+        }
+    val type: Type
+        get() {
+            return Type(expressionResult["type"])
+        }
+}
+
+fun parseOptionalTypes(tokens: String): OptionalTypes? {
+    val parsed = firstEval(optionalTypes, 0, tokens.toList(), tokens.length)
+    if (parsed != null) {
+        return OptionalTypes(parsed)
+    } else {
+        return null
+    }
+}
+
 class Anonymous2(
     val expressionResult: ExpressionResult, val items: List<Argument> = expressionResult.asMulti().map {
         Argument(it)
@@ -508,64 +614,4 @@ class Anonymous2(
     expressionResult.nextTokenIndex
 ), List<Argument> by items {
 
-}
-
-class Anonymous1(val expressionResult: ExpressionResult) : ExpressionResult(
-    expressionResult.parser,
-    expressionResult.expression,
-    expressionResult.range,
-    expressionResult.nextTokenIndex
-) {
-
-}
-
-class CodeBlock(
-    val expressionResult: ExpressionResult, val items: List<Anonymous1> = expressionResult.asMulti().map {
-        Anonymous1(it)
-    }
-) : ExpressionResult(
-    expressionResult.parser,
-    expressionResult.expression,
-    expressionResult.range,
-    expressionResult.nextTokenIndex
-), List<Anonymous1> by items {
-
-}
-
-fun parseCodeBlock(tokens: String): CodeBlock? {
-    val parsed = firstEval(codeBlock, 0, tokens.toList(), tokens.length)
-    if (parsed != null) {
-        return CodeBlock(parsed)
-    } else {
-        return null
-    }
-}
-
-class FunctionDeclaration(val expressionResult: ExpressionResult) : ExpressionResult(
-    expressionResult.parser,
-    expressionResult.expression,
-    expressionResult.range,
-    expressionResult.nextTokenIndex
-) {
-    val functionName: Identifier
-        get() {
-            return Identifier(expressionResult["functionName"])
-        }
-    val arguments: Anonymous2
-        get() {
-            return Anonymous2(expressionResult["arguments"])
-        }
-    val functionBody: Anonymous4
-        get() {
-            return Anonymous4(expressionResult["functionBody"])
-        }
-}
-
-fun parseFunctionDeclaration(tokens: String): FunctionDeclaration? {
-    val parsed = firstEval(functionDeclaration, 0, tokens.toList(), tokens.length)
-    if (parsed != null) {
-        return FunctionDeclaration(parsed)
-    } else {
-        return null
-    }
 }

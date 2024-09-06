@@ -21,6 +21,13 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
                         "\n" + "val isOk: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
                         "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
                         "\n}"
+            } else if (expression is OptionalExpression) {
+                val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
+                val expressionClassName = typeName(expressionTypeClass)
+                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
+                        "\n" + "val isPresent: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult.range.first != expressionResult.range.last) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
+                        "\nval isNotPresent: Boolean " + "\nget() {\n" + "return " + "expressionResult.range.first == expressionResult.range.last\n}" +
+                        "\n}"
             } else {
                 "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
                     "\n"
@@ -131,6 +138,10 @@ fun generateTypeClassForExpression(
     }
     if (type is CustomExpression) {
         println(type.condition)
+    }
+    if (type is OptionalExpression) {
+        val expressionName = expressionName(type.expression, types)
+        generateTypeClassForExpression(type.expression, expressionName, generatedClasses, types, includeInGeneratedClasses)
     }
     if (type is RequireExpression) {
         val expressionName = expressionName(type.expression, types)

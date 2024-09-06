@@ -40,3 +40,6 @@ val types = some(require(type))
 
 @Type
 val numbers = some(require(fNumber))
+
+@Type
+val optionalTypes = optional(allowedName)["identifier"] + space + type["type"]

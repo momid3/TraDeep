@@ -39,6 +39,8 @@ class NotExpression(val expression: Expression): Expression()
 
 class CustomExpression(val typeInfo: TypeInfo? = null, val condition: Parser.(tokens: List<Char>, startIndex: Int, endIndex: Int, thisExpression: CustomExpression) -> ExpressionResult?): Expression()
 
+class OptionalExpression(val expression: Expression): Expression()
+
 class RequireExpression(val expression: Expression): Expression()
 
 class ColdExpression(val expression: () -> Expression): Expression()
@@ -129,6 +131,7 @@ fun Parser.eval(expression: Expression, startIndex: Int, tokens: List<Char>, end
         is RecurringSomeExpression -> eval(expression, startIndex, tokens, endIndex)
         is RecurringSome0Expression -> eval(expression, startIndex, tokens, endIndex)
         is CustomExpression -> eval(expression, startIndex, tokens, endIndex)
+        is OptionalExpression -> eval(expression, startIndex, tokens, endIndex)
         is ColdExpression -> eval(expression.expression(), startIndex, tokens, endIndex).apply {
             if (this != null) {
                 this.expression = expression
@@ -396,6 +399,17 @@ fun Parser.evaluateExpression(notExpression: NotExpression, startIndex: Int, tok
         return startIndex
     } else {
         return -1
+    }
+}
+
+fun Parser.eval(optionalExpression: OptionalExpression, startIndex: Int, tokens: List<Char>, endIndex: Int): ExpressionResult {
+    val expressionResult = eval(optionalExpression.expression, startIndex, tokens, endIndex)
+    if (expressionResult != null) {
+        return expressionResult.apply {
+            this.expression = optionalExpression
+        }
+    } else {
+        return ExpressionResult(optionalExpression, startIndex..startIndex, startIndex)
     }
 }
 

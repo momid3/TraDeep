@@ -5,6 +5,11 @@ import com.momid.parser.find
 import com.momid.parser.not
 
 fun main() {
+    val optionalTypesTokens = "ooo some<ooo>"
+    val optionalTypes = parseOptionalTypes(optionalTypesTokens)!!
+    optionalTypes.identifier.isPresent.then {
+        println(it.text)
+    }
     val numbersTokens = "ooo333.888ooo"
     val numbers = parseNumbers(numbersTokens)!!
     numbers.forEach {

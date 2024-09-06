@@ -66,6 +66,10 @@ fun <T: ExpressionResult> T.println() {
     println(this.text)
 }
 
+fun optional(expression: Expression): OptionalExpression {
+    return OptionalExpression(expression)
+}
+
 fun require(expression: Expression): RequireExpression {
     return RequireExpression(expression)
 }
@@ -226,6 +230,7 @@ fun Expression.clone(): Expression {
         is EachOfExpression -> EachOfExpression(this).apply { this.id = this@clone.id }
         is EachOfTokensExpression -> EachOfTokensExpression(this).apply { this.id = this@clone.id }
         is CustomExpression -> CustomExpression(this.typeInfo, condition).apply { this.id = this@clone.id }
+        is OptionalExpression -> OptionalExpression(this).apply { this.id = this@clone.id }
         is ColdExpression -> ColdExpression(this.expression).apply { this.id = this@clone.id }
         is RequireExpression -> RequireExpression(this.expression).apply { this.id = this@clone.id }
         else -> throw (Throwable("unknown expression kind"))
