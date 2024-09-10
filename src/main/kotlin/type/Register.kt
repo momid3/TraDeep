@@ -13,59 +13,7 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
 
     val generatedCode = generatedClasses.map {
         val (expression, typeClass) = it
-        if (typeClass !is DefinedTypeClass) {
-            if (expression is RequireExpression) {
-                val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
-                val expressionClassName = typeName(expressionTypeClass)
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
-                        "\n" + "val isOk: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
-                        "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
-                        "\n}"
-            } else if (expression is OptionalExpression) {
-                val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
-                val expressionClassName = typeName(expressionTypeClass)
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
-                        "\n" + "val isPresent: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult.range.first != expressionResult.range.last) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
-                        "\nval isNotPresent: Boolean " + "\nget() {\n" + "return " + "expressionResult.range.first == expressionResult.range.last\n}" +
-                        "\n}"
-            } else {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
-                    "\n"
-                ) {
-                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-                } + "\n}"
-            }
-        } else {
-            if (typeClass.type == DefinedTypeClassValue.List) {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult, val items: List<" + typeClass.innerType.name + "> = expressionResult.asMulti().map {\n" + typeClass.innerType.name + "(it)\n}): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<" + typeClass.innerType.name + "> by items {\n" + typeClass.properties.joinToString(
-                    "\n"
-                ) {
-                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-                } + "\n}"
-            } else if (typeClass.type == DefinedTypeClassValue.AnyOf) {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult, " + typeClass.innerTypes.joinToString(
-                    ",\n"
-                ) {
-                    "val is" + it.name + ": " + it.name + "? = if (expressionResult.content.expression == " + it.name.decapitalize() + ") {\n" + it.name + "(expressionResult.content)\n} else {\nnull\n}"
-                } + "): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
-                    "\n"
-                ) {
-                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-                } + "\n}"
-            } else if (typeClass.type == DefinedTypeClassValue.Expression) {
-                "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.innerType.properties.joinToString(
-                    "\n"
-                ) {
-                    "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-                } + "\n}"
-            } else {
-                "nothing for class " + typeClass.innerType
-            }
-        } + if (!typeClass.name.contains("anonymous", true)) {
-            "\nfun parse" + typeClass.name + "(tokens: String): " + typeClass.name + "? {\nval parsed = " + "firstEval(" + typeClass.name.decapitalize() + ", " + "0" + ", " + "tokens.toList()" + ", " + "tokens.length" + ")\n" + "if (" + "parsed" + " != null) {\nreturn " + typeClass.name + "(parsed)" + "\n} else {\nreturn null\n}\n}"
-        } else {
-            ""
-        }
+        generateClassForTypeClass(expression, typeClass, generatedClasses)
     }.joinToString("\n")
 
     if (file.name != "") {
@@ -90,12 +38,59 @@ fun registerTypes(types: List<Pair<Expression, String>>, file: File = File(""), 
     return generatedCode
 }
 
-fun generateClassForTypeClass(typeClass: TypeClass): String {
-    return "class " + typeClass.name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
-        "\n"
-    ) {
-        "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
-    } + "\n}"
+fun generateClassForTypeClass(expression: Expression, typeClass: TypeClass, generatedClasses: HashMap<Expression, TypeClass>, name: String = typeClass.name): String {
+    return if (typeClass !is DefinedTypeClass) {
+        if (expression is RequireExpression) {
+            val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
+            val expressionClassName = typeName(expressionTypeClass)
+            "class " + name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
+                    "\n" + "val isOk: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult !is ErrorExpressionResult) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
+                    "\nval isError: ErrorExpressionResult? " + "\nget() {\n" + "return " + "if(expressionResult is ErrorExpressionResult)\n {" + "expressionResult" + "\n} else {\nnull\n}\n}" +
+                    "\n}"
+        } else if (expression is OptionalExpression) {
+            val expressionTypeClass = generatedClasses[expression.expression] ?: throw (Throwable("this expression should have existed"))
+            val expressionClassName = typeName(expressionTypeClass)
+            "class " + name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" +
+                    "\n" + "val isPresent: " + expressionClassName + "? " + "\nget() {\n" + "return " + "if(expressionResult.range.first != expressionResult.range.last) {\n" + expressionTypeClass.name + "(expressionResult)\n} else {\nnull\n}\n}" +
+                    "\nval isNotPresent: Boolean " + "\nget() {\n" + "return " + "expressionResult.range.first == expressionResult.range.last\n}" +
+                    "\n}"
+        } else {
+            "class " + name + "(val expressionResult: ExpressionResult): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+                "\n"
+            ) {
+                "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+            } + "\n}"
+        }
+    } else {
+        if (typeClass.type == DefinedTypeClassValue.List) {
+            "class " + name + "(val expressionResult: ExpressionResult, val items: List<" + typeClass.innerType.name + "> = expressionResult.asMulti().map {\n" + typeClass.innerType.name + "(it)\n}): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex), List<" + typeClass.innerType.name + "> by items {\n" + typeClass.properties.joinToString(
+                "\n"
+            ) {
+                "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+            } + "\n}"
+        } else if (typeClass.type == DefinedTypeClassValue.AnyOf) {
+            "class " + name + "(val expressionResult: ExpressionResult, " + typeClass.innerTypes.joinToString(
+                ",\n"
+            ) {
+                "val is" + it.name + ": " + it.name + "? = if (expressionResult.content.expression == " + it.name.decapitalize() + ") {\n" + it.name + "(expressionResult.content)\n} else {\nnull\n}"
+            } + "): ExpressionResult(expressionResult.parser, expressionResult.expression, expressionResult.range, expressionResult.nextTokenIndex) {\n" + typeClass.properties.joinToString(
+                "\n"
+            ) {
+                "val " + it.name + ": " + typeName(it.type) + "\nget() {\n" + "return " + it.type.name + "(expressionResult[\"" + it.name + "\"])\n}"
+            } + "\n}"
+        } else if (typeClass.type == DefinedTypeClassValue.Expression) {
+            val (outputExpression, outputTypeClass) = generatedClasses.entries.find { (expression, type) ->
+                type == typeClass.innerType
+            }!!
+            return generateClassForTypeClass(outputExpression, outputTypeClass, generatedClasses, name)
+        } else {
+            "nothing for class " + typeClass.innerType
+        }
+    } + if (!name.contains("anonymous", true)) {
+        "\nfun parse" + name + "(tokens: String): " + name + "? {\nval parsed = " + "firstEval(" + name.decapitalize() + ", " + "0" + ", " + "tokens.toList()" + ", " + "tokens.length" + ")\n" + "if (" + "parsed" + " != null) {\nreturn " + name + "(parsed)" + "\n} else {\nreturn null\n}\n}"
+    } else {
+        ""
+    }
 }
 
 fun typeName(typeClass: TypeClass): String {

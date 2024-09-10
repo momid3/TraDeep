@@ -92,16 +92,11 @@ fun Parser.evaluateExpression(expression: Expression, startIndex: Int, tokens: L
 //        }
     }
     when (expression) {
-        is ExactExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
-        is ConditionExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         is MultiExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         is RecurringExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         is RecurringSomeExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         is RecurringSome0Expression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         is EachOfExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
-        is EachOfTokensExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
-        is NotExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
-        is CustomExpression -> return evaluateExpression(expression, startIndex, tokens, endIndex)
         else -> throw(Throwable("unknown expression kind"))
     }
 }
@@ -119,18 +114,21 @@ fun Parser.eval(expression: Expression, startIndex: Int, tokens: List<Char>, end
     }
     if (startIndex >= endIndex) {
         if (expression is RecurringSome0Expression) {
-            return expressionResult(expression, startIndex..startIndex)
+            return MultiExpressionResult(expressionResult(expression, startIndex..startIndex), arrayListOf())
         }
 //        else {
 //            return null
 //        }
     }
     val expressionResult = when (expression) {
+        is ExactExpression -> eval(expression, startIndex, tokens, endIndex)
+        is ConditionExpression -> eval(expression, startIndex, tokens, endIndex)
         is MultiExpression -> eval(expression, startIndex, tokens, endIndex)
         is EachOfExpression -> eval(expression, startIndex, tokens, endIndex)
         is RecurringSomeExpression -> eval(expression, startIndex, tokens, endIndex)
         is RecurringSome0Expression -> eval(expression, startIndex, tokens, endIndex)
         is CustomExpression -> eval(expression, startIndex, tokens, endIndex)
+        is NotExpression -> eval(expression, startIndex, tokens, endIndex)
         is OptionalExpression -> eval(expression, startIndex, tokens, endIndex)
         is ColdExpression -> eval(expression.expression(), startIndex, tokens, endIndex).apply {
             if (this != null) {
@@ -181,7 +179,7 @@ fun Parser.eval(expression: Expression, startIndex: Int, tokens: List<Char>, end
     return expressionResult
 }
 
-fun Parser.evaluateExpression(exactExpression: ExactExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
+fun Parser.eval(exactExpression: ExactExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult? {
     var exactExpressionIndex = 0
     var tokensEndIndex = startIndex
     for (index in startIndex until endIndex) {
@@ -189,22 +187,22 @@ fun Parser.evaluateExpression(exactExpression: ExactExpression, startIndex: Int,
         if (tokens[index] == exactExpression.value[exactExpressionIndex]) {
             exactExpressionIndex += 1
             if (exactExpressionIndex == exactExpression.value.length) {
-                return tokensEndIndex
+                return ExpressionResult(exactExpression, startIndex..tokensEndIndex, tokensEndIndex)
             }
         } else {
-            return -1
+            return null
         }
     }
-    return -1
+    return null
 }
 
-fun Parser.evaluateExpression(conditionExpression: ConditionExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
+fun Parser.eval(conditionExpression: ConditionExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult? {
     if (startIndex >= endIndex) {
-        return -1
+        return null
     }
     if (conditionExpression.condition(tokens[startIndex])) {
-        return startIndex + 1
-    } else return -1
+        return ExpressionResult(conditionExpression, startIndex..startIndex + 1, startIndex + 1)
+    } else return null
 }
 
 fun Parser.evaluateExpression(multiExpression: MultiExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
@@ -251,7 +249,7 @@ fun Parser.eval(multiExpression: MultiExpression, startIndex: Int, tokens: List<
 //                    throw(Throwable("multiExpression subs should not be empty"))
 ////                    return ExpressionResult(multiExpression, startIndex .. endIndex)
 //                } else {
-                    return MultiExpressionResult(expressionResult(multiExpression, startIndex .. tokensEndIndex), expressionResults)
+                return MultiExpressionResult(expressionResult(multiExpression, startIndex .. tokensEndIndex), expressionResults)
 //                }
             }
             if (tokensEndIndex > endIndex) {
@@ -283,10 +281,7 @@ fun Parser.eval(eachOfExpression: EachOfExpression, startIndex: Int, tokens: Lis
     eachOfExpression.forEach {
         val expressionResult = eval(it, startIndex, tokens, endIndex)
         if (expressionResult != null) {
-            val tokensEndIndex = expressionResult.nextTokenIndex
-            if (tokensEndIndex != -1) {
-                return ContentExpressionResult(expressionResult(eachOfExpression, expressionResult.range), expressionResult)
-            }
+            return ContentExpressionResult(expressionResult(eachOfExpression, expressionResult.range, expressionResult.nextTokenIndex), expressionResult)
         }
     }
     return null
@@ -390,15 +385,15 @@ fun Parser.eval(recurringSome0Expression: RecurringSome0Expression, startIndex: 
     return MultiExpressionResult(expressionResult(recurringSome0Expression, startIndex..tokensEndIndex), expressionResults)
 }
 
-fun Parser.evaluateExpression(notExpression: NotExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): Int {
+fun Parser.eval(notExpression: NotExpression, startIndex: Int, tokens: List<Char>, endIndex: Int = tokens.size): ExpressionResult? {
     if (startIndex >= endIndex) {
-        return startIndex
+        return ExpressionResult(notExpression, startIndex..startIndex, startIndex)
     }
     val tokensEndIndex = eval(notExpression.expression, startIndex, tokens, endIndex)
     if (tokensEndIndex == null) {
-        return startIndex
+        return ExpressionResult(notExpression, startIndex..startIndex, startIndex)
     } else {
-        return -1
+        return null
     }
 }
 
